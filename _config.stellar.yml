@@ -44,11 +44,11 @@ menubar:
       icon: solar:notebook-bookmark-bold-duotone
       title: 文档
       url: /wiki/
-    # - id: explore
-    #   theme: '#FA6400'
-    #   icon: solar:planet-bold-duotone
-    #   title: 探索
-    #   url: /explore/
+    - id: explore
+      theme: '#FA6400'
+      icon: solar:planet-bold-duotone
+      title: 笔记
+      url: /notes/
     # - id: social
     #   theme: '#F44336'
     #   icon: solar:chat-square-like-bold-duotone
