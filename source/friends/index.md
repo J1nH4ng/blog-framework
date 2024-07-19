@@ -1,4 +1,4 @@
 ---
 menu_id: more
-title: 友链
+title: 交个朋友
 ---

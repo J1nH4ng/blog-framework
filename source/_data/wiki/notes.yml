@@ -1,10 +1,10 @@
-name: 笔记
-title: 笔记
+name: 备忘录
+title: 备忘录
 icon:
 cover:
-coverpage: [cover, title, description]
+# coverpage: [cover, title, description]
+coverpage: false
 
 base_dir: /notes/
 tree:
-  '日常问题解决问题':
-    - linux
+  '日常问题解决方案':
