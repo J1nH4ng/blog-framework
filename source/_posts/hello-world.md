@@ -1,39 +1,15 @@
 ---
-title: Hello World
+title: 再次启航
 abbrlink: 4a17b156
+rightbar: toc, related
+tags: [技术]
+categories: [折腾不息]
 ---
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
 
-## Quick Start
+自 2023 年 12 月博客停止更新下线之后再次重新开始博客的折腾、上线和更新。
 
-### Create a new post
+<!-- more -->
 
-``` bash
-$ hexo new "My New Post"
-```
+{% quot 为什么仍然需要博客 el:h2 %}
 
-More info: [Writing](https://hexo.io/docs/writing.html)
-
-### Run server
-
-``` bash
-$ hexo server
-```
-
-More info: [Server](https://hexo.io/docs/server.html)
-
-### Generate static files
-
-``` bash
-$ hexo generate
-```
-
-More info: [Generating](https://hexo.io/docs/generating.html)
-
-### Deploy to remote sites
-
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
+时至今日，各种笔记软件层出不穷，在 AI 技术的加持下，那些笔记软件仿佛真的不仅仅是一个笔记软件了，在这个背景下，博客作为互联网刚刚星期时代的产物，仿佛应该消散在历史的车轮之下。
