@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 十四行代码诗
-subtitle: 'Oh,captain,my captain!'
-description: '读书，买花，长大。'
-keywords: 'blog, code'
-author: J1n H4ng
-language: zh-CN
-timezone: 'Asia/Shanghai'
+title: Hexo
+subtitle: ''
+description: ''
+keywords:
+author: John Doe
+language: en
+timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://blog.14bytes.com
+url: http://example.com
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -96,7 +96,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: solitude
+theme: stellar
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
