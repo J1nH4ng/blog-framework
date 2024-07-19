@@ -3,13 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
+title: 14Bytes
+avatar: https://q1.qlogo.cn/g?b=qq&nk=2838080432&s=640
+favicon: https://q1.qlogo.cn/g?b=qq&nk=2838080432&s=640
+subtitle: '读书，买花，长大。'
+description: 'blog,devops,14bytes'
 keywords:
-author: John Doe
-language: en
-timezone: ''
+author: J1nH4ng
+language:
+  - zh-CN
+  - en
+timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'

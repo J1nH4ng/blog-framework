@@ -23,13 +23,13 @@ open_graph:
 logo:
   avatar: '[{config.avatar}](/about/)' # you can set avatar link in _config.yml or '[https://xxx.png](/about/)'
   title: '[{config.title}](/)' # you can set html tag like: '[<img no-lazy height="32px" src="xxx"/>](/)'
-  subtitle: '{config.subtitle}' # '文字1 | 文字2' (鼠标放上去会切换到文字2)
+  subtitle: '{config.subtitle} | 代码的十四行诗' # '文字1 | 文字2' (鼠标放上去会切换到文字2)
 
 # 侧边栏主功能导航菜单
 menubar:
   columns: 4 # 一行多少个
   items: # 可按照自己需求增加，符合以下格式即可
-    # id: 页面中高亮的 menu_id 
+    # id: 页面中高亮的 menu_id
     # theme: 高亮时的颜色，仅 svg 中 fill="currentColor" 时有效
     # icon: 支持 svg/img 标签，可以定义在 icons.yml 文件中，也支持外部图片的 URL
     # title: 标题
@@ -54,6 +54,11 @@ menubar:
     #   icon: solar:chat-square-like-bold-duotone
     #   title: 社交
     #   url: /friends/
+    - id: about
+      theme: ''
+      title: 关于
+      icon: ''
+      url: /about/
 
 
 ######## Main ########
@@ -63,13 +68,13 @@ site_tree:
   # 主页配置
   home:
     leftbar: welcome, recent
-    rightbar: 
+    rightbar:
   # 博客列表页配置
   index_blog:
     base_dir: blog # 只影响自动生成的页面路径
     menu_id: post # 未在 front-matter 中指定 menu_id 时，layout 为 post 的页面默认使用这里配置的 menu_id
     leftbar: welcome, recent # for categories/tags/archives
-    rightbar: 
+    rightbar:
     nav_tabs:  # 近期发布 分类 标签 专栏 归档 and ...
       # '朋友文章': /friends/rss/
   # 博客专栏列表页配置
@@ -81,7 +86,7 @@ site_tree:
     base_dir: wiki # 只影响自动生成的页面路径
     menu_id: wiki # 未在 front-matter 中指定 menu_id 时，layout 为 wiki 的页面默认使用这里配置的 menu_id
     leftbar: related, recent # for wiki
-    rightbar: 
+    rightbar:
     nav_tabs:
       # 'more': https://github.com/xaoxuu
   # -- 内容类页面 -- #
@@ -122,7 +127,7 @@ site_tree:
     leftbar: tagtree, recent # recent of current notebook
     rightbar: toc
   # 作者信息配置
-  author: 
+  author:
     base_dir: author # 只影响自动生成的页面路径
     menu_id: post
     leftbar: recent, timeline
@@ -184,11 +189,12 @@ article:
   # 文章许可协议
   license: '本文采用 [署名-非商业性使用-相同方式共享 4.0 国际](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。'
   # 分享
-  share: # [wechat, weibo, email, link]
+  share: [wechat, weibo, email, link]
   # 相关文章，需要安装插件 (for layout: post)
   # npm i hexo-related-popular-posts
   related_posts:
-    enable: false
+    enable: true
+    title: 您可能感兴趣的文章
     max_count: 5
 
 search:
@@ -197,10 +203,11 @@ search:
     field: all # post, page, all
     path: /search.json # 搜索文件存放位置
     content: true # 是否搜索内容
+    codeblock: true # 是否搜索代码块
   algolia_search: # Docsearch https://docsearch.algolia.com/apply/ 申请
-    appId: 
-    apiKey: 
-    indexName: 
+    appId:
+    apiKey:
+    indexName:
 
 
 ######## Comments ########
@@ -308,9 +315,9 @@ comments:
 ######## Footer ########
 footer:
   social:
-    # github:
-    #   icon: '<img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/>'
-    #   url: /
+    github:
+      icon: '<img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/>'
+      url: https://github.com/J1nH4ng
     # music:
     #   icon: '<img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/3845874.svg"/>'
     #   url: /
@@ -320,9 +327,9 @@ footer:
     # comments:
     #   icon: '<img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/942ebbf1a4b91.svg"/>'
     #   url: /about/#comments
-    # theme:
-    #   icon: default:theme
-    #   onclick: 'switchTheme()'
+    theme:
+      icon: default:theme
+      onclick: 'switchTheme()'
   sitemap:
     # '博客':
     #   - '[近期](/)'
@@ -398,7 +405,7 @@ tag_plugins:
       in_track:
         color: blue # red, orange, yellow, green, cyan, blue, purple
         label: 正常
-      at_risk: 
+      at_risk:
         color: yellow
         label: 风险
       off_track:
@@ -434,7 +441,7 @@ data_services:
     js: /js/services/siteinfo.js
     # 设置 api 可以自动提取网页标题、图标，服务部署方法：https://github.com/xaoxuu/site-info-api/
     # 接口测试通过后，把按钮的 href 部分替换成 {href} 之后填写到下方，例如：https://api.vlts.cc/site_info/v1?url={href}
-    api: 
+    api:
   ghinfo:
     js: /js/services/ghinfo.js
   # 网格布局类
@@ -502,16 +509,16 @@ plugins:
     duration: 800 # ms
     interval: 100 # ms
     scale: 1 # 0.1~1
-  
+
   # AI 摘要
   # https://github.com/qxchuckle/Post-Summary-AI
-  tianli_gpt: 
-    enable: #true
+  tianli_gpt:
+    enable: false #true
     js: https://jsd.onmicrosoft.cn/gh/qxchuckle/Post-Summary-AI@6.0/chuckle-post-ai.min.js
     field: post # all, post, wiki
     key: 5Q5mpqRK5DkwT1X9Gi5e # tianli_gpt key
     total_length: 1000 # 设置提交的字数限制，默认为1000字，上限为5000，超过5000字符将被截断
-    typewriter: true # 打字机动画 
+    typewriter: true # 打字机动画
     summary_directly: true # 是否直接显示摘要，否则显示 AI 简介
     rec_method: all # all, web # 文章推荐方式，all：匹配数据库内所有文章进行推荐，web：仅当前站内的文章，默认all
     hide_shuttle: true # 是否隐藏矩阵穿梭
@@ -531,7 +538,7 @@ plugins:
     enable: #true # hexo-renderer-markdown-it-plus 默认开启 katex，此选项仅用于引入样式
     inject: |
       <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
-  
+
   # MathJax
   # 需在Markdown文件开头加入mathjax: true
   # 推荐使用Pandoc: npm uninstall hexo-renderer-marked --save & npm install hexo-renderer-pandoc --save
@@ -555,14 +562,14 @@ plugins:
     js: https://cdn.jsdelivr.net/npm/mermaid@v9/dist/mermaid.min.js
     # Available themes: default | dark | forest | neutral
     theme: neutral
-  
+
   # 代码块复制按钮
   copycode:
     enable: true
     default_text: 'Copy'
     success_text: 'Copied'
     toast: 复制成功
-  
+
   # 赫蹏 (Heti) - 专为中文网页内容设计的排版样式增强
   # https://github.com/sivan/heti
   heti:
