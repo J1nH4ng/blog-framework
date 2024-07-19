@@ -34,16 +34,16 @@ menubar:
     # icon: 支持 svg/img 标签，可以定义在 icons.yml 文件中，也支持外部图片的 URL
     # title: 标题
     # url: 点击跳转到哪，支持相对路径和绝对路径
-    # - id: post
-    #   theme: '#1BCDFC'
-    #   icon: solar:documents-bold-duotone
-    #   title: 博客
-    #   url: /
-    # - id: wiki
-    #   theme: '#3DC550'
-    #   icon: solar:notebook-bookmark-bold-duotone
-    #   title: 文档
-    #   url: /wiki/
+    - id: post
+      theme: '#8ED6FF'
+      icon: solar:documents-bold-duotone
+      title: 博客
+      url: /
+    - id: wiki
+      theme: '#FFE3B0'
+      icon: solar:notebook-bookmark-bold-duotone
+      title: 文档
+      url: /wiki/
     # - id: explore
     #   theme: '#FA6400'
     #   icon: solar:planet-bold-duotone
@@ -55,9 +55,9 @@ menubar:
     #   title: 社交
     #   url: /friends/
     - id: about
-      theme: ''
+      theme: '#FFCECE'
       title: 关于
-      icon: ''
+      icon: solar:chat-square-like-bold-duotone
       url: /about/
 
 
@@ -330,6 +330,9 @@ footer:
     theme:
       icon: default:theme
       onclick: 'switchTheme()'
+    content: |
+      <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   sitemap:
     # '博客':
     #   - '[近期](/)'

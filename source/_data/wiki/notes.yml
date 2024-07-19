@@ -1,0 +1,10 @@
+name: 笔记
+title: 笔记
+icon:
+cover:
+coverpage: [cover, title, description]
+
+base_dir: /notes/
+tree:
+  '日常问题解决问题':
+    - linux
