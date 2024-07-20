@@ -12,3 +12,7 @@ h1: ''
 {% banner 探索 bg:https://w.wallhaven.cc/full/kx/wallhaven-kx5v57.jpg %}
 {% navbar active:/bookmark/ [备忘录](/notes/) [收藏](/bookmark/) %}
 {% endbanner %}
+
+{% quot AI icon:hashtag el:h2 %}
+
+{% sites sites_ai %}
