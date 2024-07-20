@@ -1,0 +1,23 @@
+name: 探索
+title: 探索
+logo:
+  icon: https://q1.qlogo.cn/g?b=qq&nk=2838080432&s=640
+  title: '[{config.title}](/)'
+  subtitle: 知识的细流
+
+leftbar:
+  - layout: search
+    override: search
+    filter: /notes/
+    placeholder: 在此处搜索...
+  - tree
+  - timeline_stellar_releases
+  - timeline_stellar_more
+
+base_dir: /
+tree:
+  '探索':
+    - notes/index
+    - bookmark/index
+  '解决方案':
+    - notes/server

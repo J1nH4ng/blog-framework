@@ -8,7 +8,7 @@ toc:
 recent:
   layout: recent
   rss: /atom.xml
-  limit: 10
+  limit: 5
 related:
   layout: related
 ghuser:
