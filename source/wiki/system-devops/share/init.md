@@ -235,6 +235,9 @@ set ignorecase
 
 1. 下载安装包并解压
 2. 编译安装
+   ```bash
+   ./config --prefix=/usr/local/openssl3.3
+   ```
    编译可选的配置参数有：
 
    - `--api`：构建 OpenSSL 库以支持指定版本的 API，如果未给出，默认为当前 OpenSSL 版本，和`no-deprecated`使用时，表示不构建对已经废弃 API 的支持
@@ -279,6 +282,63 @@ set ignorecase
    - `no-dynamic-engine`：不构建动态加载引擎，该选项仅在共享编译时有效
    - `no-ec`：不构建对椭圆曲线的支持
    - `no-ec2`：不构建对二进制椭圆曲线的支持
+   - `enable-ec_nistp_64_gcc_128`：启用对某些常用 NIST 椭圆曲线优化实现的支持
+   - `no-engine`：不构建对加载引擎的支持
+   - `no-err`：不编译任何错误字符串
+   - `enable-external-tests`：启用外部测试，与外部测试套件集成
+   - `no-filenames`：无文件名，不编译文件名和行号信息
+   - `enable-fips`：编译并安装 FIPS 提供程序
+   - `no-fips-securitychecks`：不执行与执行安全参数（如密钥最低安全强度）有关的 FIPS 模块运行时检查
+   - `enable-fuzz-libfuzzer/enable-fuzz-afl`：支持使用`libfuzzer`或`AFL`进行模糊测试，这些仅为开发人员选项
+   - `no-gost`：不构建对基于 GOST 的密码套件的支持
+   - `no-http`：禁用 HTTP 支持
+   - `no-legacy`：不构建传统提供程序，禁用此项也会禁用传统算法：MD2（默认情况下已禁用）
+   - `no-makedepend`：不生成依赖关系
+   - `no-module`：不构建任何可动态加载的引擎，这也意味着`no-dynamic-engine`
+   - `no-multiblock`：不在 libssl 中构建对一次性写入多条记录的支持
+   - `no-nextprotoneg`：不支持下一代协议协商（NPN）TLS 拓展
+   - `no-ocsp`：不支持在线证书状态协议（ocsp）
+   - `no-padlockeng`：不构建挂锁引擎
+   - `no-hw-padlock`：已废弃
+   - `no-pic`：不构建支持位置独立代码的程序
+   - `enable-pie`：联编时支持位置独立执行
+   - `no-pinshared`：不钉住共享库
+   - `no-posix-io`：不使用 posix IO 功能
+   - `no-psk`：不构建对基于预共享密钥的密码套件的支持
+   - `no-rdrand`：不使用硬件 RDRAND 功能
+   - `no-rfc3779`：不构建对 RFC3779 “X509 IP 地址和 AS 标识符拓展”的支持
+   - `sctp`：构建对流控制传输协议（SCTP）的支持
+   - `no-shared`：不构建共享库，只创建静态库
+   - `no-sm2-precomp`：禁止在 aarch64 上使用 SM2 预计算表，以使库更小
+   - `no-sock`：不构建对套接字 BIO 的支持
+   - `no-srp`：不构建对安全远程密码协议（SRP）或基于 SRP 的密码套件的支持 
+   - `no-srtp`：不构建对安全实时传输协议（SRTP）的支持
+   - `no-sse2`：从 32 位 x86 汇编模块中排除 SSE2 代码路径
+   - `no-ssl-trace`：不使用 SSL 跟踪功能
+   - `no-static-engine`：不编译静态链接引擎，这只有在不够用就共享引擎时才会产生影响
+   - `no-stdio`：不使用 C 头文件 stdio.h 中使用 FILE 类型的任何内容
+   - `no-test`：不构建测试程序或运行任何测试
+   - `enable-tfo`：编译时支持 TCP 快速打开
+   - `no-quic`：不编译 QUIC  支持
+   - `no-threads`：不支持多线程应用程序
+   - `threads`：运行时支持多线程应用程序，大多数平台默认开启
+   - `no-thread-pool`：不支持线程池功能
+   - `thread-pool`：构建线程池功能，如果启用，OpenSSL 算法可使用线程池执行并行计算
+   - `no-default-thread-pool`：不支持默认线程池功能
+   - `default-thread-pool`：使用默认线程池功能构建，如果启用，OpenSSL 可创建和管理的线程数可达到应用程序授权的最大线程数
+   - `enable-trace`：支持集成跟踪 api
+   - `no-ts`：不构建时间戳（TS）权限支持
+   - `enable-ubsan`：使用未定义行为 sanitiser（UBSAN）进行编译，这是一个开发人员选项
+   - `no-ui-console`：不使用用户界面（ui）控制台方法进行编译
+   - `enable-unit-test`：启动额外的单元测试 API
+   - `no-uplink`：不构建对 UPLINK 接口的支持
+   - `enable-weak-ssl-ciphers`：构建对被视为‘弱’的 SSL/TLS 密码的支持，启用此选项包括基于 RC4 的密码套件
+   - `zlib`：支持 zlib 压缩/解压缩的构建
+   - `zlib-dynamic`：与 zlib 选项类似，但 OpenSSL 会在需要时动态加载 zlib 库，只有支持加载共享库的系统才支持该选项
+   - `enable-zstd`：构建时支持 zstd 压缩/解压缩
+   - `enable-zstd-dynamic`：与启用 zstd 类似，但是在需要时让 OpenSSL 动态加载 zstd 库，只有在支持加载共享库的系统才支持该选项
+   - `enable-unstable-qlog`：启用 QUIC 协议的 qlog 输出支持
+   - `386`：在 32 位 x86 版本中，仅在汇编模块中使用 80386 指令集
 3. 配置环境变量
 
 <!-- tab 升级&nbsp;OpenSSL&nbsp;v1.1.1w&nbsp;版本 -->
@@ -295,7 +355,7 @@ set ignorecase
    ```
 2. 编译安装
    ```bash
-   cd /usr/local/openssl-1.1.1w
+   cd /usr/local/src/openssl-1.1.1w
    
    ./config --prefix=/usr/local/openssl1.1 no-zlib
    
