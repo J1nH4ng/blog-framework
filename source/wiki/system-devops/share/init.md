@@ -226,4 +226,36 @@ set ignorecase
 
 {% emoji blobcat ablobcatattentionreverse %}：根据需要选择相应的版本
 
-{% note color:cyan OpenSSL&nbsp;v1.1&nbsp;和&nbsp;OpenSSL&nbsp;v3.0&nbsp;的区别 %}
+{% note color:red OpenSSL&nbsp;v1.1&nbsp;的生命周期 OpenSSL&nbsp;v1.1于&nbsp;2023&nbsp;年&nbsp;9&nbsp;月&nbsp;11&nbsp;日结束支持，最后一个版本是&nbsp;OpenSSL&nbsp;v1.1.1w %}
+
+{% tabs active:1 %}
+<!-- tab 升级&nbsp;OpenSSL&nbsp;v3.0&nbsp;版本 -->
+
+下列所有命令在`root`用户或拥有`root`权限的用户下执行
+
+1. 下载安装包
+
+<!-- tab 升级&nbsp;OpenSSL&nbsp;v1.1.1w&nbsp;版本 -->
+
+下列所有命令在`root`用户或拥有`root`权限的用户下执行
+
+1. 下载安装包并解压
+   ```bash
+   cd /usr/local/src
+   
+   wget https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1w/openssl-1.1.1w.tar.gz
+   
+   tar -zxvf openssl-1.1.1w.tar.gz
+   ```
+2. 编译安装
+   ```bash
+   cd /usr/local/openssl-1.1.1w
+   
+   ./config --prefix=/usr/local/openssl1.1 no-zlib
+   
+   make && make install
+   ```
+3. 配置环境变量
+
+
+{% endtabs %}
