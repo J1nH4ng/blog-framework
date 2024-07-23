@@ -20,7 +20,7 @@ rightbar: toc
 <!-- okr kr2 percent:1 -->
 完成 checklist 界面的主要内容
 
-<!-- okr kr3 percent:0.25 -->
+<!-- okr kr3 percent:0.95 -->
 完成公共部分的主要内容
 
 <!-- okr kr4 status:unfinished -->
