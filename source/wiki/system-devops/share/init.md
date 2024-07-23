@@ -1,7 +1,9 @@
 ---
 wiki: system-devops
 title: 初始化服务器
-rightbar: toc
+rightbar:
+   - override: toc
+     collapse: auto
 ---
 
 ## 为什么需要初始化
@@ -491,3 +493,11 @@ set ignorecase
 待编写...
 
 {% endtabs %}
+
+### 系统调优
+
+#### 内核参数配置
+
+#### 最大文件打开数配置
+
+### 【可选】编译安装 CMake
