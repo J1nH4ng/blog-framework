@@ -4,6 +4,7 @@ title: 初始化服务器
 rightbar:
    - override: toc
      collapse: auto
+mathjax: true
 ---
 
 ## 为什么需要初始化
@@ -696,18 +697,444 @@ PID 是用来唯一标识每个正在运行的进程的数字标识符，通过�
 
 设置为 0 时，不允许`umount`命令
 
+<!-- folder fs.inotify.max_user_instances = 524288 -->
+
+用于限制单个用户可以创建的 inotify 实例的最大数量，inotify 是 Linux 内核提供的一种文件系统监控机制，可以监视文件系统的变化
+
+<!-- folder vm.overcommit_memory = 0 -->
+
+用于控制内存过度承诺策略，内存过度承诺策略允许进程分配比实际可用物理内存更多的内存量，可以提供系统的内存利用率，但是也可能导致内存耗尽和进程被杀死的风险。
+
+值有三种类型：
+- 0 - 启用经典的内存过度承诺策略，内核尝试估算出剩余可用的内存
+- 1 - 总是过度投入，内核允许超量使用内存直到用完为止，主要用于科学计算
+- 2 - 不要过度投入
+
+Redis 设置为 1
+
+<!-- folder vm.overcommit_ratio = [value] -->
+
+当`vm.overcommit_memory = 0`时取消注释，[value] 的值为 0 ~ 100，内存总量为：物理内存 * （value / 100）+ SWAP 分区大小，默认值为 50
+
+<!-- folder vm.swappiness = 60 -->
+
+用于控制系统对 SWAP 空间的使用倾向，默认值为 60，大小可以设置为 0 - 200
+
+值有三种类型：
+- 0 - 表示尽可能少的使用 SWAP
+- 100 - 表示更倾向于使用 SWAP
+- \>100 - 磁盘交互比内存快时使用，如果快2倍，计算值为 2x + x = 200（两个设备 100 的和）, x = 133.33，值为 133.33
+
+Linux 进程使用的内存有两种方式：
+
+1. file-backed pages (有文件背景的页面，比如代码段、比如 read/write 方法读写的文件、 比如 mmap 读写的文件，它们有对应的硬盘文件，因此如果要交换，可以直接和硬盘对应的文件进行交换； 比如读取一个文件，没有关闭，也没有修改，交换时，就可以将这个文件直接放回硬盘，代码处理其实就是删除这部分内容，只保留一个索引，让系统知道这个文件还处于打开状态，只是它的内容不在内存，在硬盘上)，此部分页面叫做 page cache
+2. anonymous pages (匿名页，如 stack，heap，CoW 后的数据段等；他们没有对应的硬盘文件，因此如果要交换，只能交换到 swap 分区)，此部分页面，如果系统内存不充分，可以被swap 到 swapfile 或者硬盘的 swap 分区 
+
+第（1）种内存是 Linux 系统更 prefer 的 reclaim 区域，它的 IO cost 相对较低；第（2）种 swap 的 IO cost 相对较高。而 swappiness 是 Linux 的一个内核参数，控制系统在进行内存 swap 时，使用 swap 分区或 filesystem page cache 的权重。 它跟使用了多少百分比的系统内存后才开发 swap 没有关系，这是网络上很多文章的一个错误。
+
+Linux 在进行内存回收（memory reclaim）的时候，实际上可以从1类和2类这两种页面里面进行回收，而 swappiness 值就决定了回收这2类页面的优先级。 swappiness 越大，越倾向于回收匿名页；swappiness 越小，越倾向于回收 file-backed 的页面。当然，它们的回收方法都是一样的LRU算法。
+
+<!-- folder vm.vfs_cache_pressure = 100 -->
+
+该项表示内核回收用于 directory 和 inode cache 内存的倾向
+
+值有三种类型：
+- = 100 - 内核会根据 paagecache 和 swapcache，把这两个值保持在一个合理的百分比
+- \> 100 - 内核倾向于回收 directory 和 inode cache
+- \< 100 - 内核倾向于保留 directory 和 inode cache
+
+<!-- folder vm.max_map_count = 262144 -->
+
+定义了一个进程可以拥有的内存映射区域的最大数量，通常用于限制一个进程可以打开的文件数量
+
+当 Elasticsearch 启动时需要设置
+
+<!-- folder net.ipv4.ip_forward = 0 -->
+
+用于控制 IP 数据包的转发，在单个主机作为终端节点而不是路由器或网关时使用
+
+该值有两种类型：
+- 0 - 禁用 IP 数据包转发
+- 1 - 启用 IP 数据包转发
+
+在 K8S 集群中，需要设置值为 1，否则某些 CNI 实现会有问题
+
 {% endfolders %}
 
 
 {% quot 网络参数部分 icon:hashtag %}
 
 {% folders %}
-<!-- folder 题目1 -->
-这是答案1
-<!-- folder 题目2 -->
-这是答案2
-<!-- folder 题目3 -->
-这是答案3
+<!-- folder net.ipv4.conf.all.send_redirects = 0 -->
+
+用于控制是否发送 ICMP 重定向消息，当启用时，系统在网路中充当路由器角色时会发送 ICMP 重定向消息，通知发送方有更优的路由路径，这有助于优化网络路由，但也可能被用于某些类型的网络攻击
+
+该值有两种类型：
+- 0 - 关闭发送
+- 1 - 启用发送
+
+<!-- folder net.ipv4.conf.default.send_redirects = 0 -->
+
+同上
+
+<!-- folder net.ipv4.conf.all.accept_redirects = 0 -->
+
+用于控制是否接受并处理 ICMP 重定向消息
+
+该值有两种类型：
+- 0 - 不接受
+- 1 - 接受（默认值）
+
+<!-- folder net.ipv4.conf.default.accept_redirects = 0 -->
+
+同上
+
+<!-- folder net.ipv4.conf.all.secure_redirects = 0 -->
+
+用于控制系统是否接受并处理安全的 ICMP 的重定向消息
+
+该值有两种类型：
+- 0 - 不接受
+- 1 - 接受（默认值）
+
+<!-- folder net.ipv4.conf.default.secure_redirects = 0 -->
+
+同上
+
+<!-- folder net.ipv4.conf.all.rp_filter = 1 -->
+
+该值有三种类型：
+- 0 - 禁用反向路径过滤
+- 1 - 启用反向路径过滤且对于不是同一接口出去的数据包，将其丢弃
+- 2 - 表示严格模式的反向路径过滤，只有当接受到的数据包的源地址能够通过任意可用的接口发出时，才允许通过
+
+<!-- folder net.ipv4.conf.default.rp_filter = 1 -->
+
+同上
+
+<!-- folder net.ipv4.icmp_echo_ignore_all = 0 -->
+
+忽略 ICMP 请求，出于安全考虑，建议开启此项，即禁 Ping
+
+该值有两种类型：
+- 0 - 不忽略 ICMP 请求
+- 1 - 忽略 ICMP 请求
+
+<!-- folder net.ipv4.icmp_echo_ignore_broadcasts = 1 -->
+
+表示系统将忽略收到的发送到广播地址的 ICMP 的回显请求，不做任何响应，意味着系统不会回应任何发送到广播地址的 ping 请求
+
+该值有两种类型：
+- 0 - 不忽略
+- 1 - 忽略
+
+<!-- folder net.ipv4.icmp_ignore_bogus_error_responses = 1 -->
+
+用于控制系统是否忽略虚假的 ICMP 错误信息的参数
+
+该值有两种类型：
+- 0 - 不忽略
+- 1 - 忽略
+
+<!-- folder net.ipv4.conf.all.accept_source_route = 0 -->
+
+用于控制系统是否接受 IP 数据包中指定的源路由选项
+
+该值有两种类型：
+- 0 - 表示系统将忽略 IP 数据包中指定的源路由选项
+- 1 - 表示系统将接受 IP 数据包中指定的源路由选项
+
+设置为 0 时，是一个安全的选项
+
+<!-- folder net.ipv4.conf.default.accept_source_route = 0 -->
+
+同上
+
+<!-- folder net.ipv4.tcp_syncookies = 1 -->
+
+该参数与性能无关，用于解决 TCP 的 SYN 攻击
+
+<!-- folder net.ipv4.tcp_max_tw_buckets = 6000 -->
+
+用于设置 TIME-WAIT 状态的 TCP 连接的最大数量
+
+在 TCP 协议中，当一条连接关闭时，它会进入 TIME-WAIT 状态，等待两倍的报文最大生存时间（MSL）后才会完全关闭
+
+在 TIME-WAIT 状态下的连接不会占用太多的系统资源，但是如果短时间内产生了大量的连接关闭，TIME-WAIT 状态可能累积起来，导致资源浪费，用于控制系统中 TIME-WAIT 状态连接的数量上限。
+
+用于防止 Dos 攻击
+
+<!-- folder net.ipv4.tcp_tw_recycle = 0 -->
+
+用于控制系统是否启用 TCP TIME-WAIT 状态的快速回收机制
+
+启用此选项后，内核会尝试在 TIME-WAIT 状态的连接上进行时间戳检测，并将相同时间戳的连接视为重复连接，这样系统在处理大量短周期连接时，更快的回收 TIME-WAIT 状态的连接资源
+
+启用后可能导致一些特定网络拓扑下的连接问题，尤其上当连接穿越了对称 NAT 网关时
+
+该值有两种类型：
+- 0 - 禁用
+- 1 - 启用
+
+<!-- folder net.ipv4.tcp_timestamps = 0 -->
+
+用于控制系统是否启用 TCP 时间戳选项
+
+该值有两种类型：
+- 0 - 禁用
+- 1 - 启用
+
+<!-- folder net.ipv4.tcp_tw_reuse = 1 -->
+
+用于控制系统是否启用 TCP TIME-WAIT 状态的端口重用机制
+
+启用后，内核会允许在 TIME-WAIT 状态的连接关闭后，立即重用该端口，这样可以更有效地利用系统资源，但是可能会导致一些复用的问题，特别是当之前的连接尚未完全关闭或连接复用不当时
+
+- 0 - 禁用
+- 1 - 启用
+
+<!-- folder net.ipv4.tcp_fin_timeout = 30 -->
+
+用于设置 TCP 连接的 FIN-WAIT-2 状态的超时时间
+
+在 TCP 协议中，当一方发送 FIN 报文以表示连接关闭后，它进入到 FIN-WAIT-1 状态，等待另一方确认
+
+另一方收到 FIN 报文后，发送确认后进入 CLOSE-WAIT 状态，并开始关闭连接，而发送了确认一方进入到 FIN-WAIT-2 状态，在此状态下等待一段时间以确保另一方已经完全关闭连接
+
+指定了在 FIN-WAIT-2 状态下等待的超时时间，单位为秒
+
+<!-- folder net.ipv4.tcp_keepalive_time = 1200 -->
+
+用于设置 TCP 连接的空闲超时时间，单位为秒
+
+<!-- folder net.ipv4.tcp_keepalive_probes = 3 -->
+
+启用 keepalive 后，TCP 发出多少个保持性探针，直到觉得断开，默认值为 9
+
+<!-- folder net.ipv4.tcp_keepalive_intvl = 30 -->
+
+探针发送的频率，乘以 tcp_keepalive_probes 时间后杀死不响应的连接，默认值为 75s
+
+<!-- folder net.ipv4.tcp_sack = 1 -->
+
+是否启用有选择的应答，可以通过有选择的应答乱序接受到的报文来提高性能，这样可以让发送者只发送丢失的报文段
+
+对于广域网来说这个选项应该启用，但是会增加 CPU 的占用
+
+<!-- folder net.ipv4.tcp_window_scaling = 1 -->
+
+用于控制是否启用 TCP 窗口缩放选项
+
+TCP 窗口缩放是一种 TCP 拓展机制，用于解决 TCP 的窗口大小受限问题，在传统的 TCP 中，TCP 的窗口大小是 0-65535，这个大小对于高速网络来说可能会限制 TCP 的性能
+
+TCP 窗口缩放允许发送方和接收方在 TCP 连接建立过程中协商一个更大的窗口大小，以适应更高带宽的网络
+
+<!-- folder net.ipv4.tcp_rmem = 4096 131072 6291456 -->
+
+用于设置 TCP 接收缓冲区的大小，TCP 接收缓冲区用于存储接收到的数据，等待应用程序来读取。
+
+由三个数字组成，分别表示最小值，默认值和最大值
+
+<!-- folder net.ipv4.tcp_wmem = 4096 16384 4194304 -->
+
+用于设置 TCP 发送缓冲区的大小，TCP 发送缓冲区用于存储待发送的数据，等待发送到网络上。
+
+这个参数由三个数字组成，分别表示最小值、默认值和最大值
+- 4096（4KB） 是最小缓存区大小，默认情况下与系统页大小相同，是为了确保即便在低内存机器上或者存在内存压力的情况下也有缓存
+- 16384 （16KB）是默认大小，系统上所有 TCP 套接字缓冲区默认大小，会覆盖 net.core.wmem_default 的大小（只对 TCP 协议生效），net.core.wmem_default 是所有网络协议（TCP、UDP）的默认发送缓冲区大小
+- 4194304 （4MB）是最大缓冲区大小，与默认大小不同，该值不会覆盖 net.core.wmem_max 的大小
+
+<!-- folder  net.ipv4.tcp_mem = 94500000 915000000 927000000 -->
+
+用于设置 TCP 协议的内存使用策略，而不是单独的缓冲区大小。
+
+<!-- folder net.core.wmem_default = 8388608 -->
+
+net.core.wmem_default 是所有网络协议（TCP、UDP）的默认发送缓冲区大小
+
+<!-- folder  net.core.wmem_max = 16777216 -->
+
+net.core.wmem_default 是所有网络协议（TCP、UDP）的最大发送缓冲区大小
+
+<!-- folder  net.core.rmem_default = 8388608 -->
+
+net.core.rmem_default 是所有网络协议（TCP、UDP）的默认接收缓冲区大小
+
+<!-- folder  net.core.rmem_max = 16777216 -->
+
+net.core.rmem_max 是所有网络协议（TCP、UDP）的最大接收缓冲区大小
+
+<!-- folder  net.ipv4.ip_local_port_range = 1024 65000 -->
+
+内核参数，用于设置本地端口号的范围，本地端口号是由客户端程序或服务端程序在发起网络连接或监听网络连接时所使用的端口号
+
+第一个数字表示本地端口号的最小值，第二个数字表示本地端口号的最大值
+
+0-1023 是系统保留端口号，用于一些常见的网络服务，故不会影响 nginx 监听的 80，443 端口
+
+<!-- folder  net.ipv4.route.gc_timeout = 300 -->
+
+用于设置路由缓存项的过期超时时间
+
+路由缓存用于存储系统中已知的网络路由信息，以便在转发数据包时快速查找目的地址的路由信息。
+
+当路由缓存中的条目长时间未被使用时，系统可以选择将其从缓存中删除，以释放资源以保持路由表的更新
+
+<!-- folder  net.core.netdev_max_backlog = 262144 -->
+
+用于设置网络设备接收队列的最大长度
+
+网络设备接收队列用于暂时存储从网络接口接收到的数据包，这些数据包等待倍内核进程接收和处理，当接收队列已满时，新到达的数据包将被丢弃或倍网络设备本地处理
+
+单位是数据包数量，它影响系统在高网络负载情况下的性能和稳定性，增加这个值可以提高系统对网络流量的处理能力，但也会增加系统的内存消耗和延迟。
+
+<!-- folder  net.core.somaxconn = 65535 -->
+
+用于设置套接字的最大排队连接数
+
+当服务器接收到大量连接请求时，这些连接请求会排队等待被服务器接受。
+
+当排队连接数达到这个值时，新地连接请求将被拒绝或者延迟处理，直到有空闲的连接队列位置
+
+<!-- folder  net.core.default_qdisc = fq -->
+
+TCP 拥塞控制算法
+
+<!-- folder  net.ipv4.tcp_congestion_control = bbr -->
+
+TCP 拥塞控制算法
+
+<!-- folder  net.ipv4.tcp_max_orphans = 3276800 -->
+
+用于设置系统中允许的最大孤立 TCP 连接数
+
+孤立连接是指客户端发起了连接但是没有完全建立起连接，或者连接已经被关闭但是仍然存在于系统中等待被清理的连接，这些孤立连接会占用系统资源，包括内存和文件描述符等，如果数量过多，可能会导致资源耗尽和系统性能下降
+
+<!-- folder  net.ipv4.tcp_max_syn_backlog = 262144 -->
+
+用于设置 TCP 半连接队列的最大长度
+
+在 TCP 三次握手过程中，服务器在接收到客户端的 SYN 请求后，会将这个连接放入到半连接队列中等待三次握手的完成
+
+这个值指定了可以容纳的等待完成三次握手的连接的最大数量，当半连接队列已满时，新的 SYN 请求将被拒绝或延迟处理，直到有空闲的半连接队列位置，这个参数的设置可以影响系统处理新连接的速度和并发连接数
+
+<!-- folder  net.ipv4.tcp_syn_retries = 1 -->
+
+用于设置 TCP 连接建立中的 SYN 的尝试次数
+
+<!-- folder  net.ipv4.tcp_synack_retries = 1 -->
+
+用于设置 TCP 连接建立在的 SYN+ACK 的尝试次数
+
+<!-- folder  net.ipv4.tcp_slow_start_after_idle = 0 -->
+
+关闭慢启动重启(Slow-Start Restart)，SSR 对于会出现突发空闲的长周期 TLS 连接有很大的负面影响，建议关闭
+
+<!-- folder  net.ipv4.tcp_mtu_probing = 1 -->
+
+启用 MTU 探测，在链路上存在 ICMP 黑洞时启用
+- 0 - 禁用
+- 1 - 默认关闭，当检测到 ICMP 黑洞时启用
+- 2 - 始终启用，使用 tcp_base_mss 的初始 mss
+
+建议为 1
+
+ICMP 黑洞：路由器不能转发超过“下一跳规定的 MTU”长度的数据，最常见地是导致防火墙丢弃 ICMP 包，客户端就会一直重发但没有结果
+
+
+<!-- folder  net.ipv6.conf.all.disable_ipv6 = 0 -->
+
+是否禁用 IPv6 协议
+- 0 - 不禁用
+- 1 - 禁用
+
+<!-- folder  net.ipv6.conf.default.disable_ipv6 = 0 -->
+
+同上
+
+<!-- folder  net.ipv6.conf.all.accept_redirects = 0 -->
+
+用于控制 IPv6 网络接口是否接受 ICMPv6 重定向消息
+- 0 - 禁止所有的 IPv6 接受是否接受 ICMPv6 重定向消息
+- 1 - 允许（默认值）
+
+<!-- folder  net.ipv6.conf.default.accept_redirects = 0 -->
+
+同上
+
+
+<!-- folder  net.netfilter.nf_conntrack_max = 262144 -->
+
+用于设置连接跟踪表的最大容量
+
+连接跟踪表：是 Linux 内核中的一个功能，用于跟踪网络连接的状态，当数据包经过 Linux 系统时，连接跟踪会检测数据包的状态，并根据需要更新连接跟踪表中的信息，连接跟踪表用于存储当前活动的网络连接信息，包括源地址、目标地址、协议类型、端口号等
+
+net.nf_conntrack_max 和 net.netfilter.nf_conntrack_max 是同一个参数的两种别名，但是它们具有相同的功能和作用
+
+默认计算公式为：
+
+8G 内存大小：
+
+$$ 8 * 1024 * 1024 * 1024 \div 16384\text{(HASH 表大小)} \div (64\text{(64位机器)} \div 32) = 262144 $$
+
+$$ \text{net.netfilter.nf_conntrack_buckets} = \text{net.netfilter.nf_conntrack_max} \div 4 $$
+
+net.netfilter.nf_conntrack_buckets 的值无法直接修改
+
+临时生效：
+
+8G 内存大小：
+
+```bash
+echo 262144 > /sys/module/nf_conntrack/parameters/hashsize
+```
+
+重启永久生效
+
+```bash
+vim /etc/modprobe.d/iptables.conf
+options nf_conntrack hashsize = 262144
+```
+
+<!-- folder net.netfilter.nf_conntrack_icmp_timeout = 10 -->
+
+用于设置 ICMP 连接的超时时间
+
+<!-- folder net.netfilter.nf_conntrack_tcp_timeout_syn_recv = 5 -->
+
+<!-- folder net.netfilter.nf_conntrack_tcp_timeout_syn_sent = 5 -->
+
+
+<!-- folder net.netfilter.nf_conntrack_tcp_timeout_close_wait = 10 -->
+
+用于设置 TCP 连接在 CLOSE_WAIT 下的超时时间
+
+默认值： 60
+
+<!-- folder net.netfilter.nf_conntrack_tcp_timeout_fin_wait = 10 -->
+
+用于设置 TCP 连接在 FIN_WAIT 下的超时时间
+
+默认值： 60
+
+<!-- folder net.netfilter.nf_conntrack_tcp_timeout_time_wait = 10 -->
+
+用于设置 TCP 连接在 TIME_WAIT 下的超时时间
+
+默认值： 120
+
+<!-- folder net.netfilter.nf_conntrack_tcp_timeout_close_wait = 20 -->
+
+默认值： 60
+
+<!-- folder net.netfilter.nf_conntrack_tcp_timeout_last_ack = 10 -->
+
+默认值： 30
+
+<!-- folder net.netfilter.nf_conntrack_tcp_timeout_established = 3600 -->
+
+用于已经建立的 TCP 连接的超时时间，当连接在这个时间内没收到数据包时，内核会自动关闭这个连接
+
 {% endfolders %}
 
 
@@ -716,6 +1143,8 @@ PID 是用来唯一标识每个正在运行的进程的数字标识符，通过�
 ```bash
 sysctl -p
 ```
+
+对于网络参数部分，all 的设置会覆盖 default 的设置，新增的网卡会走 default 配置，但是在使用 `sysctl -p` 的情况下，{% wavy 全部恢复为 all 的设置 %}
 
 #### 最大文件打开数配置
 
