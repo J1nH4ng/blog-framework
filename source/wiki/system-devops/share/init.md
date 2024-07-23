@@ -1077,9 +1077,11 @@ net.nf_conntrack_max 和 net.netfilter.nf_conntrack_max 是同一个参数的两
 
 $$ 8 * 1024 * 1024 * 1024 \div 16384\text{(HASH 表大小)} \div (64\text{(64位机器)} \div 32) = 262144 $$
 
-$$ \text{net.netfilter.nf_conntrack_buckets} = \text{net.netfilter.nf_conntrack_max} \div 4 $$
+<!-- folder net.netfilter.nf_conntrack_buckets = [value] -->
 
-net.netfilter.nf_conntrack_buckets 的值无法直接修改
+$$ \text{[value]} = \text{net.netfilter.nf_conntrack_max} \div 4 $$
+
+net.netfilter.nf_conntrack_buckets {% wavy 无法直接修改 %}
 
 临时生效：
 
