@@ -1153,3 +1153,26 @@ sysctl -p
 暂时未找到相关的说明文档
 
 ### 编译安装 CMake【可选】
+
+{% ghcard Kitware/CMake/releases theme:nord %}
+
+1. 卸载已有版本的 CMake
+   ```bash
+   sudo yum remove cmake -y
+   ```
+2. 编译安装
+   ```bash
+   cd /usr/local/src
+   
+   wget https://github.com/Kitware/CMake/archive/refs/tags/v3.27.0.tar.gz -O cmake-3.27.0.tar.gz
+   
+   sudo mkdir cmake-3.27.0 && tar -zxvf cmake-3.27.0.tar.gz -C cmake-3.27.0 --strip-components 1
+   
+   cd /usr/local/src/cmake-3.27.0
+   
+   sudo ./bootstrap && make && make install # 安装过程较慢，请耐心等待
+   ```
+3. 验证版本
+   ```bash
+   cmake --version
+   ```
