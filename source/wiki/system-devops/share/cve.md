@@ -1,7 +1,21 @@
 ---
 wiki: system-devops
 title: CVE 漏洞列表
-rightbar: toc
+rightbar:
+  - layout: markdown
+    title: '漏洞分类说明 [NOTE.2024.07.23.1]'
+    content: |
+      漏洞等级分为高危、中危、低危、信息写了四个等级
+      - 高危：触发漏洞会对系统、资产造成严重影响
+      - 中危：触发漏洞会对系统、资产造成中等程度影响
+      - 低危：触发漏洞只会对系统、资产造成轻微的影响
+      - 信息泄漏：不会对系统、资产造成可能的影响
+  - layout: markdown
+    title: '漏洞修复需求 [NOTE.2024.07.23.2]'
+    content: |
+      在日常工作中，高危和中危漏洞是必须要紧急修复并且持续关注最新的漏洞报告的。
+      对于低危漏洞，尽快的修复。
+      对于信息泄漏漏洞，查看有可能泄漏的信息，尽可能避免有用信息泄漏
 banner: https://w.wallhaven.cc/full/2k/wallhaven-2k67om.jpg
 ---
 

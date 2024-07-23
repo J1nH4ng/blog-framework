@@ -226,7 +226,7 @@ set ignorecase
 
 {% emoji blobcat ablobcatattentionreverse %}：根据需要选择相应的版本
 
-{% note color:red OpenSSL&nbsp;v1.1&nbsp;的生命周期 OpenSSL&nbsp;v1.1于&nbsp;2023&nbsp;年&nbsp;9&nbsp;月&nbsp;11&nbsp;日结束支持，最后一个版本是&nbsp;OpenSSL&nbsp;v1.1.1w %}
+{% note color:red OpenSSL&nbsp;v1.1&nbsp;和OpenSSL&nbsp;v3.0的生命周期 OpenSSL&nbsp;v1.1&nbsp;于&nbsp;2023&nbsp;年&nbsp;9&nbsp;月&nbsp;11&nbsp;日结束支持，最后一个版本是&nbsp;OpenSSL&nbsp;v1.1.1w OpenSSL&nbsp;v3.0&nbsp;支持至&nbsp;2026&nbsp;年&nbsp;9&nbsp;月&nbsp;7日&nbsp; %}
 
 {% tabs active:1 %}
 <!-- tab 升级&nbsp;OpenSSL&nbsp;v3.0&nbsp;版本 -->
@@ -234,9 +234,20 @@ set ignorecase
 下列所有命令在`root`用户或拥有`root`权限的用户下执行
 
 1. 下载安装包并解压
+   ```bash
+   cd /usr/local/src
+   
+   wget https://github.com/openssl/openssl/releases/download/openssl-3.0.14/openssl-3.0.14.tar.gz
+   
+   tar -zxvf openssl-3.0.14.tar.gz
+   ```
 2. 编译安装
    ```bash
-   ./config --prefix=/usr/local/openssl3.3
+   cd /usr/local/openssl-3.0.14
+   
+   ./config --prefix=/usr/local/openssl3.0
+   
+   make && make install
    ```
    编译可选的配置参数有：
 
@@ -340,6 +351,25 @@ set ignorecase
    - `enable-unstable-qlog`：启用 QUIC 协议的 qlog 输出支持
    - `386`：在 32 位 x86 版本中，仅在汇编模块中使用 80386 指令集
 3. 配置环境变量
+   ```bash
+   mv /usr/bin/openssl /usr/bin/openssl.bak
+   mv /usr/include/openssl /usr/include/openssl.bak
+   
+   ln -s /usr/local/openssl3.0/bin/openssl /usr/bin/openssl
+   ln -s /usr/local/openssl3.0/include/openssl /usr/include/openssl
+   ```
+4. 添加动态链接库路径
+   ```bash
+   cat /etc/ld.so.conf
+   
+   echo '/usr/local/openssl3.0/lib' >> /etc/ld.so.conf
+   
+   ldconfig -v
+   ```
+5. 验证是否成功
+   ```bash
+   openssl version
+   ```
 
 <!-- tab 升级&nbsp;OpenSSL&nbsp;v1.1.1w&nbsp;版本 -->
 
@@ -357,11 +387,35 @@ set ignorecase
    ```bash
    cd /usr/local/src/openssl-1.1.1w
    
-   ./config --prefix=/usr/local/openssl1.1 no-zlib
+   ./config --prefix=/usr/local/openssl1.1
    
    make && make install
    ```
 3. 配置环境变量
-
+   ```bash
+   mv /usr/bin/openssl /usr/bin/openssl.bak
+   mv /usr/include/openssl /usr/include/openssl.bak
+   
+   ln -s /usr/local/openssl1.1/bin/openssl /usr/bin/openssl
+   ln -s /usr/local/openssl1.1/include/openssl /usr/include/openssl
+   ln -s /usr/local/openssl1.1/lib/libssl.so.1.1 /usr/local/lib64/libssl.so
+   ```
+4. 添加动态链接库路径
+   ```bash
+   cat /etc/ld.so.conf
+   
+   echo '/usr/local/openssl1.1/lib' >> /etc/ld.so.conf
+   
+   ldconfig -v
+   ```
+5. 验证是否成功
+   ```bash
+   openssl version
+   ```
 
 {% endtabs %}
+
+#### 升级 OpenSSH
+
+{% note color:red 注意事项 SSH&nbsp;升级会导致后续链接断连，一旦产生网络波动的情况下，就无法通过&nbsp;SSH&nbsp;协议进行连接恢复，所以在升级&nbsp;SSH&nbsp;之前，首先配置&nbsp;telnet，后续使用&nbsp;telnet&nbsp;协议进行连接升级配置。 %}
+
