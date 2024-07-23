@@ -2,8 +2,7 @@
 wiki: system-devops
 title: 初始化服务器
 rightbar:
-   - override: toc
-     collapse: auto
+   - toc
 mathjax: true
 ---
 
