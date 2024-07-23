@@ -419,3 +419,75 @@ set ignorecase
 
 {% note color:red 注意事项 SSH&nbsp;升级会导致后续链接断连，一旦产生网络波动的情况下，就无法通过&nbsp;SSH&nbsp;协议进行连接恢复，所以在升级&nbsp;SSH&nbsp;之前，首先配置&nbsp;telnet，后续使用&nbsp;telnet&nbsp;协议进行连接升级配置。 %}
 
+由于升级 SSH 的特殊性，以下操作均在`root`或拥有`root`权限的用户下执行
+
+##### 配置 telnet
+
+{% tabs active:1 %}
+
+<!-- tab 基于&nbsp;yum&nbsp;包管理器的发行版 -->
+
+1. 确认`telnet`及依赖安装`xinetd`的安装情况
+   ```bash
+   rpm -qa | grep -E "telnet|xinetd"
+   ```
+2. 安装`telnet`及依赖的`xinetd`
+   ```bash
+   yum -y install xinetd telnet-server
+   ```
+3. 修改`telnet`配置文件
+   ```bash
+   cat >> /etc/securetty <<EOF
+   pts/0
+   pts/1
+   pts/2
+   pts/3
+   pts/4
+   EOF
+   ```
+4. 启动`telnet`及依赖的`xinetd`，并设置开机自启
+   ```bash
+   systemctl enable xinetd --now
+   systemctl enable telnet.socket --now
+   ```
+5. 查看`telnet`和`xinetd`状态
+   ```bash
+   systemctl status xinetd
+   systemctl status telnet.socket
+   ```
+6. 关闭防火墙以及防火墙自启，避免使用`telnet`连接失败
+   ```bash
+   systemctl stop firewalld
+   systemctl disable firewalld
+   ```
+7. 验证开启的`telnet`
+   ```bash
+   ss -nltp | grep :23
+   ```
+8. 使用非本机的终端进行验证
+   ```bash
+   telnet <$IP>
+   ```
+   如果出现错误，可以通过`/var/log/secure`日志进行排查
+
+##### 源码编译安装最新版
+
+1. 安装依赖
+   ```bash
+   yum -y install gcc gcc-c++ glibc make autoconf pcre-devel pam-devel zlib zlib-devel
+   ```
+2. 下载源码并解压
+   ```bash
+   cd /usr/local/src
+   
+   wget https://mirrors.aliyun.com/pub/OpenBSD/OpenSSH/portable/openssh-9.8p1.tar.gz
+   
+   tar -zxvf openssh-9.8p1.tar.gz
+   ```
+3. 编译安装
+
+<!-- tab 基于&nbsp;apt&nbsp;包管理器的发行版 -->
+
+待编写...
+
+{% endtabs %}
