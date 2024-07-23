@@ -1170,7 +1170,7 @@ sysctl -p
    
    cd /usr/local/src/cmake-3.27.0
    
-   sudo ./bootstrap && make && make install # 安装过程较慢，请耐心等待
+   sudo ./bootstrap && make && make install
    ```
 3. 验证版本
    ```bash
