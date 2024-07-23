@@ -419,7 +419,9 @@ set ignorecase
 
 #### 升级 OpenSSH
 
-{% note color:red 注意事项 SSH&nbsp;升级会导致后续链接断连，一旦产生网络波动的情况下，就无法通过&nbsp;SSH&nbsp;协议进行连接恢复，所以在升级&nbsp;SSH&nbsp;之前，首先配置&nbsp;telnet，后续使用&nbsp;telnet&nbsp;协议进行连接升级配置。 %}
+{% note color:red 注意事项 SSH&nbsp;升级会导致后续链接断连，一旦产生网络波动的情况下，就无法通过&nbsp;SSH&nbsp;协议进行连接恢复，所以在升级&nbsp;SSH&nbsp;之前，首先配置&nbsp;telnet，后续使用&nbsp;telnet&nbsp;协议进行连接升级配置。%}
+
+{% emoji blobcat ablobcatattentionreverse %}：OpenSSH 9.8p1 要求OpenSSL 版本大于等于 1.1.1 以上
 
 由于升级 SSH 的特殊性，以下操作均在`root`或拥有`root`权限的用户下执行
 
@@ -472,7 +474,7 @@ set ignorecase
    ```
    如果出现错误，可以通过`/var/log/secure`日志进行排查
 
-##### 源码编译安装最新版
+##### 编译安装
 
 1. 安装依赖
    ```bash
@@ -487,6 +489,82 @@ set ignorecase
    tar -zxvf openssh-9.8p1.tar.gz
    ```
 3. 编译安装
+   ```bash
+   mv /etc/ssh /etc/ssh.bak_$(date "+%Y%m%d")
+   mv /etc/pam.d/sshd /etc/pam.d/sshd.bak_$(date "+%Y%m%d")
+   
+   cd /usr/local/src/openssh-9.8p1
+   
+   ./configure --prefix=/usr/local/openssh9.8 \
+      --sysconfdir=/etc/ssh \
+      --with-openssl-includes=/usr/local/include \
+      --with-ssl-dir=/usr/local/openssl3.0 \
+      --with-zlib --with-md5-passwords --with-pam
+   
+   make && make install
+   ```
+4. 修改配置文件
+   ```bash
+   cat >>/etc/ssh/sshd_config << EOF
+   UseDNS no
+   PermitRootLogin yes
+   PubkeyAuthentication yes
+   PasswordAuthentication yes
+   X11Forwarding yes
+   X11UseLocalhost no
+   XAuthLocation /usr/bin/xauth
+   EOF
+   ```
+5. 备份可执行文件，并配置新版本的可执行文件
+   ```bash
+   mv /usr/bin/ssh /usr/bin/ssh.bak_$(date "+%Y%m%d")
+   mv /usr/sbin/sshd /usr/sbin/sshd.bak_$(date "+%Y%m%d")
+   mv /usr/bin/ssh-keygen /usr/bin/ssh-keygen.bak_$(date "+%Y%m%d")
+   
+   ln -s /usr/local/openssh9.8/bin/ssh /usr/bin/ssh
+   ln -s /usr/local/openssh9.8/bin/ssh-keygen /usr/bin/ssh-keygen
+   ln -s /usr/local/openssh9.8/sbin/sshd /usr/sbin/sshd
+   ```
+6. 使用 Service 管理进程
+   ```bash
+   # 备份服务文件
+   mv /etc/systemd/system/sshd.service /etc/systemd/system/sshd.service.bak_$(date "+%Y%m%d")
+   
+   # 配置新版本启动脚本
+   cp -a /usr/local/src/openssh-9.8p1/contrib/redhat/sshd.init /etc/init.d/sshd
+   cp -a /usr/local/src/openssh-9.8p1/contrib/redhat/sshd.pam /etc/pam.d/sshd
+   
+   # 配置可执行权限
+   chmod +x /etc/init.d/sshd
+   
+   # 重启sshd服务
+   /etc/init.d/sshd restart
+   ```
+7. {% mark 设置开机自启 color:red %}
+   ```bash
+   # 配置 sshd 加入 chkconfig 管理
+   chkconfig --add sshd
+
+   # 配置sshd开机自启动
+   chkconfig sshd on
+   ```
+8. 验证 SSH 版本以及连接性
+   ```bash
+   ssh -V
+   ```
+   使用非本机终端进行 SSH 连接验证
+
+##### 关闭`telnet`
+
+在验证 SSH 版本和连接性成功之后，关闭`telnet`端口，保证服务器的安全性。
+
+```bash
+systemctl stop xinetd.service
+systemctl disable xinetd.service
+
+systemctl stop telnet.socket
+systemctl disable telnet.socket
+```
 
 <!-- tab 基于&nbsp;apt&nbsp;包管理器的发行版 -->
 
@@ -500,4 +578,4 @@ set ignorecase
 
 #### 最大文件打开数配置
 
-### 【可选】编译安装 CMake
+### 编译安装 CMake【可选】
