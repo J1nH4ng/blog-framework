@@ -1,6 +1,5 @@
 ---
 title: 背景故事
-rightbar: toc, related
 tags:
   - 技术
   - Rust
