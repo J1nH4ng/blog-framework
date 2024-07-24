@@ -146,3 +146,14 @@ image_minifier:
   pngquant: false
   progressive: false
   silent: false
+
+wordCount:
+  enable: true
+  postWordCount: true
+  min2read: true
+  totalCount: true
+
+# 在文章头添加，进行文章加密
+# password: Hello
+# abstract: 有东西被加密了，请输入密码查看
+# message: 您好，需要密码
