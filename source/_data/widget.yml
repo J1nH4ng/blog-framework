@@ -33,12 +33,9 @@ tagcloud:
   show_count: true # 显示每个标签的文章总数
 welcome:
   layout: markdown
-  title: 欢迎探索：
-  linklist:
-    columns: 1
-    item:
-      - icon:
-        title:
-        url:
+  title: '🎉欢迎 '
   content: |
-  src:
+    本站托管于Github, 可能会出现加载缓慢或丢失问题，欢迎在评论区交流技术知识。
+    <br><hr>
+    今日诗词:  <span id="jinrishici-sentence"></span>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
