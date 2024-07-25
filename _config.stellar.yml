@@ -414,7 +414,7 @@ tag_plugins:
     default_color: # red, orange, yellow, green, cyan, blue, purple
   # {% okr o1 percent:0.5 status:normal %}
   okr:
-    border: true # 是否显示边框
+    border: false # 是否显示边框
     status: # 可以自行增加
       # 进行中状态
       in_track:
