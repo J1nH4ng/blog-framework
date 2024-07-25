@@ -158,3 +158,8 @@ wordCount:
 # password: Hello
 # abstract: 有东西被加密了，请输入密码查看
 # message: 您好，需要密码
+
+# 自定义引入css,js
+inject:
+  script:
+    - <script type="text/javascript" src="/custom/js/ZYCode.js"></script>
