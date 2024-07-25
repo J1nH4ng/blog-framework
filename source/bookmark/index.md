@@ -16,3 +16,7 @@ h1: ''
 {% quot AI icon:hashtag el:h2 %}
 
 {% sites sites_ai %}
+
+{% quot 开源分享 icon:hashtag el:h2 %}
+
+{% sites sites_open %}
