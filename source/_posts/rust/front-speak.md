@@ -6,8 +6,8 @@ tags:
 categories:
   - 代码学习
   - Rust
-abbrlink: 26a18f44
 topic: rust
+abbrlink: 7819a34e
 ---
 
 ## 宏大叙事下的个人历史地位
