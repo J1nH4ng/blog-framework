@@ -24,6 +24,7 @@ abbrlink:
   alg: crc32
   rep: hex
   drafts: false
+  force: false
 
 permalink_defaults:
 pretty_urls:
