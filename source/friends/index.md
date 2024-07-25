@@ -15,4 +15,4 @@ breadcrumb: false
 {% navbar active:/friends/ [友链](/friends/) [关于](/about/) %}
 {% endbanner %}
 
-{% friends v2ex %}
+{% friends f2site %}
