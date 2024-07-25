@@ -4,6 +4,8 @@ title: 初始化服务器
 rightbar:
    - toc
 mathjax: true
+references:
+   - '[Linux下的磁盘管理之LVM详解及lvm的常用磁盘操作命令](https://blog.csdn.net/weixin_42915431/article/details/121881054)'
 ---
 
 ## 为什么需要初始化
@@ -1175,3 +1177,162 @@ sysctl -p
    ```bash
    cmake --version
    ```
+
+### 配置 LVM 磁盘格式
+
+#### LVM 介绍
+
+LVM，Logical Volume Manger，是 Linux 内核提供的一种逻辑卷管理功能，由内核驱动和应用层工具组成，它是在硬盘的分区基础上，创建了一个逻辑层，可以非常灵活且非常方便的管理存储设备。
+
+LVM 利用 Linux 内核的 device-manager 功能来实现存储系统的虚拟化（系统分区独立于底层硬件）。通过 LVM，可以实现存储空间的抽象化并在上面建立虚拟分区（virtual partitions），可以更简便地扩大和缩小分区，可以增删分区时无需担心某个硬盘上没有足够的连续空间，避免为正在使用的磁盘重新分区的麻烦、为调整分区分区而不得不移动其他分区的不便，相比于传统的分区系统可以更灵活地管理磁盘。
+
+#### LVM 的基本组成
+
+位置图示如下：
+
+此处应有图片......
+
+依次为：disk -> partition -> PV -> VG -> LV -> fs
+
+创建一个 LVM 磁盘系统时也是按照这个顺序执行的
+
+#### LVM 的优缺点
+
+1. 优点
+   - 将多块硬盘看作一块大硬盘
+   - 使用逻辑卷（LV），可以创建跨越众多硬盘空间的分区
+   - 可以创建小的逻辑卷（LV），在空间不足的情况下再动态调整它的大小
+   - 在调整逻辑卷（LV）的大小时不用考虑逻辑卷在硬盘上的位置，不用担心没有可用的连续空间
+   - 可以在线（热处理）对逻辑卷（LV）和卷组（VG）进行创建、删除、调整大小等操作。不过 LVM 上的文件系统也需要重新调整大小，某些文件系统（例如：ext4，xfs 等）也支持在线操作
+   - 无需重启服务，就可以将服务中用到的逻辑卷（LV）在线/动态迁移到别的硬盘上
+   - 允许创建快照，可以保存文件系统的备份，同时使服务下线时间（downtime）降低至最小
+   - 支持各种设备映射目标（device-mapper targets），包括透明文件系统加密和缓存常用数据（caching of frequently used data）。这将允许创建一个包含一个或多个磁盘，并使用 LUKS 加密的系统，使用 LVM on top 可以轻松地管理和调整这些独立的加密卷，并免去开机时多次输入密钥的麻烦
+2. 缺点
+   - 在系统设置时需要额外的步骤
+   - Windows 系统并不支持 LVM
+
+#### 使用 LVM
+
+{% tabs active:1 %}
+
+<!-- tab 创建新的 LVM 磁盘 -->
+
+1. 查看已经挂载且未初始化的磁盘
+
+   ```bash
+   lsblk
+   
+   # 在本文中新增的磁盘为 vdb
+   ```
+
+2. 使用`fdsik`命令初始化该磁盘
+
+   ```bash
+   fdisk /dev/vdb
+   ```
+
+   根据说明文字按下 {% kbd N %} 键进行磁盘的新建，接下来的三个选项选择默认即可，即连续按下 {% kbd Enter %} 三次，再磁盘初始化完成之后，还需要修改磁盘格式为 LVM 格式，此时我们仍然在`fdisk`设置界面，此时按下 {% kbd T %}，这是给出了选项，输入 {% kbd 8 %} + {% kbd E %}，按下 {% kbd Enter %}，即可修改成功，最后按下 {% kbd w %}，将改动写入磁盘 vdb 中。
+
+3. 创建磁盘 PV
+
+   在上一步初始化磁盘完成后，使用`lsblk`命令可以查看 vdb 磁盘下面出现了 vdb1 ，且磁盘格式为 LVM，此时可以开始创建 PV，使用如下命令创建：
+   ```bash
+   pvcreate /dev/vdb1
+   ```
+
+4. 在 PV 创建成功后，查看 VG 是否存在，如果存在，直接添加至需要的 VG 之中即可，如果不存在，可以自己创建新的 VG
+
+{% tabs active:1 align:center %}
+
+<!-- tab VG 存在 -->
+
+- 使用`vgdisplay`查看组名
+   ```bash
+   vgdisplay
+   ```
+
+- 添加到需要的组名下，这里的组名为 OpenEuler
+
+   ```bash
+   vgextend openeuler /dev/vdb1
+   ```
+   
+<!-- tab VG 不存在 -->
+
+{% endtabs %}
+
+5. 新建虚拟磁盘，名称为 data
+
+   ```bash
+   lvcreate -n data -l +100%FREE openeuler
+   ```
+
+6. 初始化磁盘
+
+   使用`df -hT`查看磁盘格式，根据不同的磁盘格式使用不同的命令
+
+{% tabs active:1 align:center %}
+
+<!-- tab xfs 磁盘格式 -->
+
+```bash
+mkfs.xfs /dev/mapper/openeuler-data
+```
+
+<!-- tab ext4 磁盘格式 -->
+
+```bash
+mkfs.ext4 /dev/mapper/openeuler-data
+```
+
+{% endtabs %}
+
+7. 挂载目录
+
+   ```bash
+   mount /dev/mapper/openeuler-data /data
+   ```
+
+   修改`fstab`用于开机自动挂载
+
+   ```bash
+   vim /etc/fstab
+   ```
+
+<!-- tab 拓展已有的 LVM 磁盘 -->
+
+1. 使用`lsblk`查看新增的磁盘
+   ```bash
+   lsblk
+   ```
+2. 初始化空闲磁盘
+   ```bash
+   pvcreate /dev/vdb
+   ```
+3. 查看 VG，将初始化完成的磁盘加入特定的 VG 中
+   ```bash
+   vgextend openeuler /dev/vdb
+   ```
+4. 拓展 LV
+   ```bash
+   lvextend -l +100%FREE /dev/mapper/openeuler-data
+   ```
+5. 调整文件系统，拓展逻辑卷内空间，对于不同的文件系统，使用不同的命令
+
+{% tabs active:1 align:center %}
+
+<!-- tab ext4 -->
+
+```bash
+xfs_growfs /dev/mapper/openeuler-data
+```
+
+<!-- tab xfs -->
+
+```bash
+resize2fs /dev/mapper/openeuler-data
+```
+
+{% endtabs %}
+
+{% endtabs %}
