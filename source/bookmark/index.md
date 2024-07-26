@@ -20,3 +20,7 @@ h1: ''
 {% quot 开源分享 icon:hashtag el:h2 %}
 
 {% sites sites_open %}
+
+{% quot 实用工具 icon:hashtag el:h2 %}
+
+{% sites sites_tools %}
