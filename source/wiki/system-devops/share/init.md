@@ -1174,7 +1174,45 @@ sysctl -p
 
 #### 最大文件打开数配置
 
-暂时未找到相关的说明文档
+##### 临时配置
+
+1. 设置用户的 open files
+
+   ```bash
+   ulimit -n 65535
+   ```
+
+2. 设置用户的 max user processes
+
+   ```bash
+   ulimit -u 65535
+   ```
+
+##### 修改配置文件
+
+```bash
+vim /etc/security/limits.conf
+```
+
+写入下面内容：
+
+```bash limits.conf
+*          soft    nproc     65535
+*          hard    nproc     65535
+*          soft    nofile    65535
+*          hard    nofile    65535
+```
+
+```bash
+vim /etc/systemd/system.conf
+```
+
+修改如下两个配置的内容：
+
+```bash system.conf
+DefaultLimitNOFILE=65535
+DefaultLimitNPROC=65535
+```
 
 ### 编译安装 CMake【可选】
 
