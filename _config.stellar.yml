@@ -316,7 +316,7 @@ comments:
 footer:
   social:
     github:
-      icon: '<img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/08a41b181ce68.svg"/>'
+      icon: '<img src="https://upyun.thatcdn.cn/public/img/icon/github-logo2.png"/>'
       url: https://github.com/J1nH4ng
     # music:
     #   icon: '<img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/3845874.svg"/>'
@@ -327,6 +327,9 @@ footer:
     # comments:
     #   icon: '<img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/942ebbf1a4b91.svg"/>'
     #   url: /about/#comments
+    bili:
+      icon: '<img src="https://upyun.thatcdn.cn/public/img/icon/bilibili-icon.png"/>'
+      url: https://space.bilibili.com/450540212
     theme:
       icon: default:theme
       onclick: 'switchTheme()'
@@ -631,9 +634,9 @@ style:
     animate: auto # auto, always
     background: https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp
   codeblock:
-    scrollbar: 4px
+    # scrollbar: 4px
     # highlightjs_theme: https://gcore.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css
-    highlightjs_theme: /custom/css/ZYCode.css
+    highlightjs_theme: /custom/css/ZYCodeV2.css
   loading:
     loading: 正在加载
     error: 加载失败，请稍后重试。

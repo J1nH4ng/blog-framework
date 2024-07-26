@@ -60,7 +60,7 @@ highlight:
   line_number: true
   auto_detect: false
   tab_replace: ''
-  wrap: false
+  wrap: true
   hljs: true
 prismjs:
   preprocess: true
@@ -163,7 +163,8 @@ wordCount:
 # 自定义引入css,js
 inject:
   head:
-    - <link rel="stylesheet" href="custom/css/ZYCode.css?1">
-    - <link rel="stylesheet" href="custom/css/link.css?1">
+    - <link rel="stylesheet" href="/custom/css/link.css?1">
+    - <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
   script:
-    - <script type="text/javascript" src="/custom/js/ZYCode.js"></script>
+    - <script type="text/javascript" src="/custom/js/ZYCode.js?1"></script>
+    - <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
