@@ -10,9 +10,14 @@ rightbar: toc
 
 ## 安装需要的软件
 
-### 安装并配置 Nginx
+### 安装 Nginx 需要的模块依赖
 
-### 安装并配置 Keepalived
+### 安装 Nginx
 
+### 安装 Keepalived
+
+## 实现高可用
+
+## 【可选】配置文件同步
 
 

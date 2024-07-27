@@ -585,6 +585,7 @@ plugins:
   # 代码块复制按钮
   copycode:
     enable: true
+    js: /custom/js/ZYCode.js
     default_text: 'Copy'
     success_text: 'Copied'
     toast: 复制成功
@@ -672,3 +673,12 @@ api_host:
   ghapi: https://api.github.com
   ghraw: https://raw.githubusercontent.com
   gist: https://gist.github.com
+
+# 自定义引入css,js
+inject:
+  head:
+    - <link rel="stylesheet" href="/custom/css/link.css?1">
+    - <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
+  script:
+    - <script type="text/javascript" src="/custom/js/ZYCode.js?1"></script>
+    - <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>

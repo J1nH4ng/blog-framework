@@ -1214,7 +1214,7 @@ DefaultLimitNOFILE=65535
 DefaultLimitNPROC=65535
 ```
 
-### 编译安装 CMake【可选】
+### 【可选】编译安装 CMake
 
 {% ghcard Kitware/CMake/releases theme:nord %}
 
