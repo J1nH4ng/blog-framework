@@ -3,9 +3,10 @@ title: 系统化运维文档
 subtitle: '系统化运维文档 | Edited by J1nH4ng'
 tags: 运维
 icon:
-cover: https://w.wallhaven.cc/full/1p/wallhaven-1pywr9.png
+# cover: https://w.wallhaven.cc/full/1p/wallhaven-1pywr9.png
+cover: /wiki/system-devops/images/system-devops.svg
 coverpage: true
-description: 记录运维的相关知识文档
+description:
 share: true
 repo:
 search:

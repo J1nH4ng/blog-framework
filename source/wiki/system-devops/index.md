@@ -20,10 +20,10 @@ rightbar: toc
 <!-- okr kr2 percent:1 -->
 完成 checklist 界面的主要内容
 
-<!-- okr kr3 percent:0.95 -->
+<!-- okr kr3 status:at_risk percent:0.96 -->
 完成公共部分的主要内容
 
-<!-- okr kr4 status:unfinished -->
+<!-- okr kr4 percent:0.1 -->
 完成 Proxy 服务器的相关文档
 
 <!-- okr kr5 status:unfinished -->
