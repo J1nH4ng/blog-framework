@@ -1,0 +1,24 @@
+name: 90V
+title: 考公笔记
+subtitle: '考公笔记 | Edited by J1nH4ng'
+tags: 考公
+icon:
+# cover: https://w.wallhaven.cc/full/1p/wallhaven-1pywr9.png
+cover:
+coverpage: true
+description:
+share: true
+repo:
+search:
+  filter: /wiki/90V/
+  placeholder: 在考公笔记中搜索...
+leftbar:
+  - tree
+  - timeline_stellar_releases
+  - timeline_stellar_more
+  - related
+base_dir: /wiki/system-devops/
+tree:
+  '注意事项':
+    - index
+license: '本文采用 [署名-非商业性使用-相同方式共享 4.0 国际](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。'
