@@ -1,4 +1,4 @@
 name: 一个叫 Ferris 的螃蟹的历史
 title: Ferris 的远大梦想
 description: 以历史记录者的视角去学习 Rust
-order_by: -date
+order_by: -id

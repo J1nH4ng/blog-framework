@@ -8,6 +8,8 @@ categories:
   - Rust
 topic: rust
 abbrlink: 26a18f44
+date: 2024-07-23
+id: 2
 ---
 
 ## 恢弘叙事

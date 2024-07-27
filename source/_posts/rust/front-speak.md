@@ -8,6 +8,8 @@ categories:
   - Rust
 topic: rust
 abbrlink: 7819a34e
+date: 2024-07-22
+id: 1
 ---
 
 > 关于个人历史地位与宏大叙事史诗的思考

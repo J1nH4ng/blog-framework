@@ -5,7 +5,7 @@ rightbar:
    - toc
 mathjax: true
 references:
-   - '[Linux下的磁盘管理之LVM详解及lvm的常用磁盘操作命令](https://blog.csdn.net/weixin_42915431/article/details/121881054)'
+   - '[Linux 下的磁盘管理之 LVM 详解及 lvm 的常用磁盘操作命令](https://blog.csdn.net/weixin_42915431/article/details/121881054)'
 ---
 
 ## 为什么需要初始化
@@ -1380,7 +1380,7 @@ mkfs.ext4 /dev/mapper/openeuler-data
    ```
 5. 调整文件系统，拓展逻辑卷内空间，对于不同的文件系统，使用不同的命令
 
-{% tabs active:1 align:center %}
+{% tabs active:1 %}
 
 <!-- tab ext4 -->
 
@@ -1397,3 +1397,48 @@ resize2fs /dev/mapper/openeuler-data
 {% endtabs %}
 
 {% endtabs %}
+
+### 其他设置
+
+{% folders %}
+
+<!-- folder 关闭 Selinux -->
+
+```bash
+vim /etc/selinux/config
+
+# 修改 SELINUX=enforcing 为 SELINUX=disabled
+```
+
+<!-- folder 关闭防火墙或放开相应端口 -->
+
+{% tabs active:1 %}
+
+<!-- tab Firewalld -->
+
+- 关闭防火墙
+   ```bash
+   systemctl stop firewalld
+   systemctl disable firewalld
+   ```
+- 放开相应端口
+
+<!-- tab Iptables -->
+
+- 关闭防火墙
+   ```bash
+   systemctl stop iptables
+   systemctl disable iptables
+   ```
+- 放开相应端口
+
+{% endtabs %}
+
+<!-- folder 测试相关硬件 -->
+
+1. 测试磁盘读写速率是否为 SSD 磁盘
+   ```bash
+   hdparm -Tt /dev/vdb
+   ```
+
+{% endfolders %}
