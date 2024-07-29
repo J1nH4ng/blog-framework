@@ -31,7 +31,7 @@ rightbar: toc
 - 修改为国内源
 - 防火墙
   - 关闭
-  - 放开相应端口
+  - 放开相应端口（限制特定 IP 访问）
 - 关闭 selinux
 - 升级 OpenSSL
 - 升级 OpenSSH
@@ -146,4 +146,5 @@ rightbar: toc
 ## 其他事项
 
 - squid 代理服务器配置
-- 备份文件的 MD5 校验
+- 上传文件的 MD5 或 Hash 检查
+- 压缩文件的正确解压缩检查

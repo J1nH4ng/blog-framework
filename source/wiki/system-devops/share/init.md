@@ -578,6 +578,55 @@ systemctl disable telnet.socket
 
 #### 内核参数配置
 
+##### 使用的内核参数
+
+```bash /etc/sysctl.conf
+kernel.sysrq = 0
+kernel.core_uses_pid = 1
+kernel.msgmnb = 65536
+kernel.msgmax = 65536
+kernel.shmmax = 68719476736
+kernel.shmall = 16777216
+# kernel.shmmni = 4096
+fs.file-max = 1638400
+
+net.core.wmem_default = 8388608
+net.core.rmem_default = 8388608
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.core.somaxconn = 65535
+net.core.netdev_max_backlog = 262144
+
+net.ipv4.ip_forward = 1
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.default.accept_source_route = 0
+net.ipv4.tcp_syncookies = 0
+net.ipv4.tcp_max_tw_buckets = 6000
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 16384 4194304
+net.ipv4.tcp_max_orphans = 3276800
+net.ipv4.tcp_max_syn_backlog = 262144
+net.ipv4.tcp_synack_retries = 1
+net.ipv4.tcp_syn_retries = 1
+# jmeter服务器要开启
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_keepalive_time = 1200
+net.ipv4.tcp_mem = 94500000 915000000 927000000
+net.ipv4.ip_local_port_range = 1024 65535
+# jmeter服务器建议开启
+net.ipv4.tcp_timestamps=0
+net.ipv4.tcp_tw_reuse = 1
+
+net.ipv6.conf.all.disable_ipv6 = 0
+```
+
+更新完成之后使用`sysctl -p`强制刷新
+
+##### 内核参数详解
+
 内核参数的配置文件在`/etc/sysctl.conf`，对于内核参数的具体讲解如下，根据个人需要选择调试
 
 {% quot 内核参数部分 icon:hashtag %}
@@ -624,7 +673,7 @@ gzip > "/var/coredump/$1"
 
 消息队列是一种进程间通信的方式，用来在不同进程之间传递数据，适当调整这个值可以提高系统的性能和可靠性，但是需要根据具体的应用场景和系统资源来进行权衡和调整
 
-<!-- folder kernel.magmax = 65536 -->
+<!-- folder kernel.msgmax = 65536 -->
 
 与 msgmnb 不同，msgmax 限制单个信息的大小而不是整个消息队列的大小
 
@@ -758,6 +807,12 @@ Linux 在进行内存回收（memory reclaim）的时候，实际上可以从1�
 
 当 Elasticsearch 启动时需要设置
 
+{% endfolders %}
+
+
+{% quot 网络参数部分 icon:hashtag %}
+
+{% folders %}
 <!-- folder net.ipv4.ip_forward = 0 -->
 
 用于控制 IP 数据包的转发，在单个主机作为终端节点而不是路由器或网关时使用
@@ -769,12 +824,6 @@ Linux 在进行内存回收（memory reclaim）的时候，实际上可以从1�
 
 在 K8S 集群中，需要设置值为 1，否则某些 CNI 实现会有问题
 
-{% endfolders %}
-
-
-{% quot 网络参数部分 icon:hashtag %}
-
-{% folders %}
 <!-- folder net.ipv4.conf.all.send_redirects = 0 -->
 
 用于控制是否发送 ICMP 重定向消息，当启用时，系统在网路中充当路由器角色时会发送 ICMP 重定向消息，通知发送方有更优的路由路径，这有助于优化网络路由，但也可能被用于某些类型的网络攻击
@@ -1440,5 +1489,7 @@ vim /etc/selinux/config
    ```bash
    hdparm -Tt /dev/vdb
    ```
+
+<!-- folder 修改服务器 IP 为静态 IP 地址 -->
 
 {% endfolders %}
