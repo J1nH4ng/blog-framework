@@ -41,6 +41,9 @@ importers:
       hexo-generator-tag:
         specifier: ^2.0.0
         version: 2.0.0
+      hexo-pagination:
+        specifier: ^4.0.0
+        version: 4.0.0
       hexo-related-popular-posts:
         specifier: ^5.0.1
         version: 5.0.1
@@ -1253,6 +1256,10 @@ packages:
   hexo-pagination@3.0.0:
     resolution: {integrity: sha512-8oo1iozloZo7TojPVYg4IxL3SJKCBdSJ908fTlIxIK7TWJIKdYnQlW31+12DBJ0NhVZA/lZisPObGF08wT8fKw==}
     engines: {node: '>=14'}
+
+  hexo-pagination@4.0.0:
+    resolution: {integrity: sha512-jNG6AX3EHzY3FRfdzB46tZ833CUX4WudZue3yv6kKaVCCWR61iwFL9LD6xQadvwHBuT1oHy444dJClWORG4sxg==}
+    engines: {node: '>=18'}
 
   hexo-related-popular-posts@5.0.1:
     resolution: {integrity: sha512-X+7leZ708sXq1bgayful2HaGU22XAGPDZjqzpFUoeP8mXmJL51E2p66gqs7Xu+rygu4MMJQJvRK/fzGbHa8eqQ==}
@@ -4238,6 +4245,8 @@ snapshots:
       picocolors: 1.0.1
 
   hexo-pagination@3.0.0: {}
+
+  hexo-pagination@4.0.0: {}
 
   hexo-related-popular-posts@5.0.1:
     dependencies:
