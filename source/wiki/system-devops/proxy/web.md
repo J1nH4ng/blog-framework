@@ -10,11 +10,15 @@ rightbar: toc
 
 ## 安装需要的软件
 
-### 安装 Nginx 需要的模块依赖
+### Nginx 部分
 
-### 安装 Nginx
+#### 安装模块依赖
 
-### 安装 Keepalived
+#### 编译安装
+
+### Keepalived 部分
+
+#### 编译安装
 
 1. 安装依赖
     ```bash
@@ -38,7 +42,143 @@ rightbar: toc
     make && make install
     ```
 
+#### keepalived 配置文件详解
+
+##### 简介
+
+keepalived 配置文件是按层级和模块划分的，每层由`{}`来进行界定。在主配置文件中可以使用`include`来使用多个子配置文件。
+
+配置文件中的语法说明：
+
+- `BOOL`：布尔类型，值为 `[on | off | true | false | yes | no]`
+- `TIMER`：时间，以秒为单位，包括小数秒，例如值为：`[3 | 1.414]`
+- 关于脚本引用：
+  - 双引号 `"` 字符串中嵌入其他双引号或空格，那么字符串将仅在带引号的字符串结束之后结束，例如：`"abcd" edg hijk "lmno"` 等价于 `"abcd edg hijk lmno"`
+  - 对于使用参数指定脚本，不带引号的空格将会分割参数，如果需要传递带空格的参数，将这个参数包含在 `'` 之中
+
+配置文件包含以下三个区域
+
+1. GLOBAL 配置
+2. VRRPD 配置
+3. LVS 配置
+
+##### 全局配置
+
+全局配置又包括两个子配置
+
+1. 全局定义
+2. 静态路由配置
+
+具体配置和内容解释如下：
+
+```bash keepalived.conf
+! Configuration File for keepalived
+
+# 用于标识全局定义部分
+global_defs {
+   # 设置邮件报警地址，可以设置多个
+   notification_email {
+      test1@mail.14bytes.com
+      test2@mail.14bytes.com
+   }
+   
+   # 设置发件人
+   notification_email_from server@mail.14bytes.com
+   
+   # 设置 smtp server 地址，可以是 ip 或域名，端口号是可选的，默认为 25
+   smtp_server smtp.14bytes.com[:25]
+   # 设置 smtp server 的超时时间
+   smtp_connect_timeout 30
+   
+   # 主机标识，用于邮件通知，可以设置为主机名
+   router_id <host-name>
+   
+   # 严格执行 VRRP 协议规范，此模式不支持节点单播
+   vrrp_strict
+   
+   # 指定允许脚本的用户名和组名。默认使用用户的默认组，如果未指定，默认为 keepalived_script 用户，如果没有这个用户，则为 root 用户
+   script_user <nginx> [nginx]
+   
+   # 禁止使用 root 用户执行
+   enable_script_security
+}
+```
+
 ## 实现高可用
+
+1. 创建 Nginx 活性检测脚本
+   ```bash
+   mkdir -pv /data/scripts/keepalived
+   
+   vim /data/scripts/keepalived/check-nginx.sh
+   
+   chmod +x /data/scripts/keepalived/check-nginx.sh
+   ```
+   
+   文件内容如下：
+
+   ```shell
+   #!/bin/bash
+
+   # 若 nginx 进程不存在，则停止 keepalived 服务
+   killall -0 nginx &>/dev/null
+
+   # 判断上一条指令的状态码，若状态码为0则服务存活，否则服务未启动
+   if [ $? -ne 0 ];then
+      systemctl start nginx
+      killall -0 nginx &>/dev/null
+      if [ $? -ne 0 ];then
+         exit 1
+      fi
+   fi
+   ```
+
+2. 修改 Master 节点的 keepalived 的配置文件
+
+   ```bash
+   vim /usr/local/keepalived2.2/etc/keepalived/keepalived.conf
+   ```
+   
+   写入内容如下：
+
+   ```bash keepalived.conf
+   ! Configuration File for keepalived
+
+   vrrp_script chk_nginx {
+      script "/data/scripts/check-nginx.sh"
+      interval 2
+      fall 2
+      rise 1
+      weight -20
+   }
+
+   vrrp_instance VI_1 {
+      state MASTER
+      interface ens33
+      virtual_router_id 51
+      priority 100
+      advert_int 1
+      authentication {
+         auth_type PASS
+         auth_pass 1111
+      }
+
+      virtual_ipaddress {
+         192.168.0.250
+      }
+   
+      # 防止主备节点的上联交换机禁用了组播，采用 vrrp 单播通告的方式
+      unicast_src_ip 192.168.0.11 #本机 IP 地址
+      unicast_peer {
+         192.168.0.12 #对端节点 IP 地址
+      }
+
+      # 追踪 vrrp_script 块中定义的脚本
+      track_script {
+         chk_nginx
+      }
+   }
+   ```
 
 ## 配置 Nginx
 

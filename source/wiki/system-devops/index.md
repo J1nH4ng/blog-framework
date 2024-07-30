@@ -63,3 +63,7 @@ rightbar: toc
 - 完成 Wiki 的框架构成
 {% image /wiki/system-devops/images/hello@1x.png width:300px %}
 {% endtimeline %}
+
+{% quot 资源地址 el:h2 %}
+
+{% link https://github.com/14bytes/config-share-files 脚本仓库 icon:https://github.githubassets.com/favicons/favicon.svg desc:false %}
