@@ -46,6 +46,8 @@ rightbar: toc
   - Lua 模块
 - Keepalived（是否可以由硬件支持）
   - VIP 提供
+- logrotate
+  - 切割方式，按日期，按大小
 - Ansible
 - Rsync
 - Scripts
@@ -64,6 +66,8 @@ rightbar: toc
   - {% mark color:red 服务器之间是否允许 SSH 协议通信 %}
   - Ansible 的 Hosts 文件配置
 - NFS 或其他存储方式
+- logrotate
+  - 切割方式，按日期，按大小
 - Scripts
   - 文件同步脚本
 
