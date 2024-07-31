@@ -93,13 +93,13 @@ banner: https://w.wallhaven.cc/full/2k/wallhaven-2k67om.jpg
 5. 再次使用 `diffie-hellman` 算法进行测试
 
     ```bash
-    ssh -v -oKexAlgorithms=diffie-hellman-group-exchange-sha256 root@[target-ip]
+    ssh -v -oKexAlgorithms=diffie-hellman-group-exchange-sha256 root@<target-ip>
     ```
 
     测试不加模块连接
 
     ```bash
-    ssh root@[target-ip]
+    ssh root@<target-ip>
     ```
 
 {% endfolders %}

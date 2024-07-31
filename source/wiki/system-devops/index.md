@@ -20,10 +20,10 @@ rightbar: toc
 <!-- okr kr2 percent:1 -->
 完成 checklist 界面的主要内容
 
-<!-- okr kr3 status:at_risk percent:0.96 -->
+<!-- okr kr3 percent:1 -->
 完成公共部分的主要内容
 
-<!-- okr kr4 percent:0.1 -->
+<!-- okr kr4 status:off_track percent:0.15 -->
 完成 Proxy 服务器的相关文档
 
 <!-- okr kr5 status:unfinished -->
@@ -52,6 +52,9 @@ rightbar: toc
 {% quot Wiki 时间线 el:h2 %}
 
 {% timeline %}
+<!-- node 2024 年 07 月 31 日 -->
+- 完善目录结构
+- 添加附件内容
 <!-- node 2024 年 07 月 23 日 -->
 - 基本完成公共部分-初始化服务器的内容
 - 开始编写代理服务器-应用代理服务器部分
@@ -72,7 +75,8 @@ rightbar: toc
 
 - 快速开始
   - 内容简介：{% hashtag 仅修复错误 color:yellow %}
-  - 注意事项：{% hashtag 仅修复错误 color:yellow %}
+  - 初始化注意事项：{% hashtag 仅修复错误 color:yellow %}
+  - 迁移等注意事项：{% hashtag 仅修复错误 color:yellow %}
 
 - 共用部分
   - CVE 漏洞列表：{% hashtag 长期维护 color:green %}
@@ -83,3 +87,11 @@ rightbar: toc
 - 容器化服务器部分：
   - Docker 介绍：{% hashtag 仅修复错误 color:yellow %}
   - Kubernetes 介绍：{% hashtag 仅修复错误 color:yellow %}
+- 附录：
+  - 半自动部署脚本：{% hashtag 重大更新维护 color:red %}
+  - 文件同步脚本：{% hashtag 重大更新维护 color:red %}
+
+{% quot Wiki 部分内容说明 el:h2 %}
+
+1. 对于 `[A | B]` 中内容表示为可选，可选择 A 或者 B
+2. 对于 `<target>` 中内容表示为必填，必填内容为 target 所描述的内容，例如 `<target-ip>` 表示填入目标 IP 地址

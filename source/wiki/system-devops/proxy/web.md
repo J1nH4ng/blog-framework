@@ -62,7 +62,7 @@ keepalived 配置文件是按层级和模块划分的，每层由`{}`来进行�
 2. VRRPD 配置
 3. LVS 配置
 
-##### 全局配置
+##### GLOBAL 配置
 
 全局配置又包括两个子配置
 
@@ -103,6 +103,10 @@ global_defs {
    enable_script_security
 }
 ```
+
+##### VRRPD 配置
+
+##### LVS 配置
 
 ## 实现高可用
 
