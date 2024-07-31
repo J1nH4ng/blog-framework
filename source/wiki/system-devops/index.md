@@ -64,6 +64,22 @@ rightbar: toc
 {% image /wiki/system-devops/images/hello@1x.png width:300px %}
 {% endtimeline %}
 
-{% quot 资源地址 el:h2 %}
+{% quot Wiki 资源地址 el:h2 %}
 
 {% link https://github.com/14bytes/config-share-files 脚本仓库 icon:https://github.githubassets.com/favicons/favicon.svg desc:false %}
+
+{% quot Wiki 维护周期 el:h2 %}
+
+- 快速开始
+  - 内容简介：{% hashtag 仅修复错误 color:yellow %}
+  - 注意事项：{% hashtag 仅修复错误 color:yellow %}
+
+- 共用部分
+  - CVE 漏洞列表：{% hashtag 长期维护 color:green %}
+  - 初始化服务器：{% hashtag 重大更新维护 color:red %}
+- 代理服务器部分
+  - 应用代理服务器：{% hashtag 重大更新维护 color:red %}
+  - 网络代理服务器：{% hashtag 重大更新维护 color:red %}
+- 容器化服务器部分：
+  - Docker 介绍：{% hashtag 仅修复错误 color:yellow %}
+  - Kubernetes 介绍：{% hashtag 仅修复错误 color:yellow %}

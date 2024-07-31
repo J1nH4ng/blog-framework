@@ -21,7 +21,7 @@ base_dir: /wiki/system-devops/
 tree:
   '快速开始':
     - index
-    - checklist
+    - checklist/init
   '共用部分':
     - share/cve
     - share/init
