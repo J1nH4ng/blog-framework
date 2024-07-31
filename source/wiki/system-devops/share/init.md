@@ -515,6 +515,7 @@ set ignorecase
    X11Forwarding yes
    X11UseLocalhost no
    XAuthLocation /usr/bin/xauth
+   KexAlgorithms sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521
    EOF
    ```
 5. 备份可执行文件，并配置新版本的可执行文件
