@@ -79,7 +79,7 @@ banner: https://w.wallhaven.cc/full/2k/wallhaven-2k67om.jpg
 3. 测试使用 `diffie-hellman` 算法连接
 
     ```bash
-    ssh -v -oKexAlgorithms=diffie-hellman-group-exchange-sha256 root@[target-ip]
+    ssh -v -oKexAlgorithms=diffie-hellman-group-exchange-sha256 root@<target-ip>
     ```
 
 4. 禁用 `diffie-hellman` 算法
