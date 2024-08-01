@@ -19,4 +19,8 @@ breadcrumb: true
 
 待编写......
 
+<!-- folder Curl 命令访问 Nginx 出现 301 的解决方案 -->
+
+在 `curl` 命令后添加 `-L` 参数即可
+
 {% endfolders %}
