@@ -635,7 +635,7 @@ style:
     animate: auto # auto, always
     background: https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp
   codeblock:
-    # scrollbar: 4px
+    scrollbar: 4px
     # highlightjs_theme: https://gcore.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css
     highlightjs_theme: /custom/css/ZYCode.css
   loading:
