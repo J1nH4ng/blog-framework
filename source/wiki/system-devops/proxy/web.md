@@ -41,6 +41,36 @@ rightbar: toc
     
     make && make install
     ```
+4. 修改 Keepalived 日志输出信息
+   ```bash
+   vim /usr/local/keepalived2.2/etc/sysconfig/keepalived
+   ```
+   修改如下参数
+   ```bash
+   # KEEPALIVED_OPTIONS="-D"
+   KEEPALIVED_OPTIONS="-D -d -S 0"
+   ```
+5. 配置 Keepalived 日志输出位置
+   ```bash
+   vim /etc/rsyslog.conf
+   ```
+   添加下列配置
+   ```bash
+   # keepalived log
+   local0.*       /var/log/keepalived.log
+   ```
+6. 配置 keepalived 的 service 文件
+   ```bash
+   cp /usr/local/src/keepalived-2.2.8/keepalived/keepalived.service \
+      /etc/systemd/system/keepalived.service
+   
+   systemctl daemon-reload
+   ```
+7. 重启 rsyslog 和 keepalived 服务
+   ```bash
+   systemctl restart rsyslog
+   systemctl restart keepalived
+   ```
 
 #### keepalived 配置文件详解
 
@@ -106,7 +136,28 @@ global_defs {
 
 ##### VRRPD 配置
 
+VRRPD 配置模块包含以下子模块
+
+1. vrrp_script
+2. vrrp_sync_group
+3. garp_group
+4. vrrp_instance
+
+```bash keepalived.conf
+# vrrp_script 区域
+
+```
+
 ##### LVS 配置
+
+LVS 配置模块包含以下子模块
+
+1. virtual_server
+2. real_server
+3. real_server 中的健康检查
+   - HTTP_GET 或者 SSL_GET
+   - TCP_CHECK
+   - DNS_CHECK
 
 ## 实现高可用
 

@@ -111,7 +111,10 @@ rightbar: toc
     - 集群
   - {% mark color:red 与 erlang 版本对应 %}
 - MinIO
+  - 备份策略
 - NacOS
+- 脚本内容
+  - MinIO 备份脚本
 
 ### 监控服务器
 
