@@ -32,7 +32,11 @@ tree:
   '容器化服务器部分':
     - cloud/docker/index
     - cloud/k8s/index
-  '附录':
-    - extra/speed-cicd
-    - extra/file-sync
+  '附录 A ：软件介绍':
+    - extra/software/keepalived
+    - extra/software/docker
+    - extra/software/kubernetes
+  '附录 B ：脚本内容':
+    - extra/script/speed-cicd
+    - extra/script/file-sync
 license: '本文采用 [署名-非商业性使用-相同方式共享 4.0 国际](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。'
