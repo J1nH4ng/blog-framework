@@ -12,21 +12,26 @@ rightbar: toc
 - {% mark color:red 服务器横向 SSH 是否联通 %}
 - 防火墙开放状态
 - 物理磁盘是否挂载
+- 所有密码为复杂密码
 
 ## 网络关系
 
 - 服务器是否允许出网
-- 应用部分
-  - 后端需要请求的第三方接口
-  - 业务的跨网段请求
-  - 互联网访问前端应用
-- 运维服务器
-  - 到自建的 Squid 服务器或其他正向服务器
+  - 临时开放部分
+    - 全部放开
+  - 长期开放部分
+    - 应用服务器需要
+      - 后端需要请求的第三方接口
+      - 业务的跨网段请求
+      - 互联网访问前端应用
+    - 运维服务器需要
+      - 到自建的 Squid 服务器或其他正向服务器
 
 ## 初始化部分
 
 - 虚拟机管理平台设置为高可用选项
 - 修改为国内源
+- 时钟同步
 - 防火墙
   - 关闭防火墙
   - 放开特定端口并限制 IP 访问
@@ -61,26 +66,28 @@ rightbar: toc
 - Rsync {% hashtag SSH&nbsp;联通 color:red %}
 - 脚本内容
   - 用于 Nginx 访问控制的 Lua 脚本
-  - 文件同步脚本
+  - 文件同步脚本 {% hashtag SSH&nbsp;联通 color:red %}
 
 ### Web 应用服务器
 
 - Nginx
+  - 版本确定
 - Java
   - jdk1.8（写入系统变量）
   - jdk11 或者更高（绝对路径使用）
 - Supervisord
-- Keepalived
+  - web 控制台
 - Ansible {% hashtag SSH&nbsp;联通 color:red %}
   - Ansible 的 Hosts 文件配置
 - Rsync {% hashtag SSH&nbsp;联通 color:red %}
 - NFS 或其他存储
+  - Upload 目录与 Jar 包配置在同一服务器上
 - Logrotate
   - 切割方式
     - 按时间
     - 按大小
 - 脚本内容
-  - 文件同步脚本
+  - 文件同步脚本 {% hashtag SSH&nbsp;联通 color:red %}
   - 半自动发布脚本（临时）{% hashtag Jenkins&nbsp;不可用时 color:red %}
 
 ### 数据库服务器
@@ -97,7 +104,7 @@ rightbar: toc
 - Keepalived
   - VIP 确定
 - MongoDB
-
+  - 版本
 
 ### 中间件服务器
 
@@ -129,18 +136,21 @@ rightbar: toc
   - 版本
   - 编译时禁用特定参数解决中文乱码
 - ELK
-  - 版本完全一致
+  - 版本（含小版本）完全一致
 
 ### 运维服务器
+
+{% note color:red 特别说明： 当且仅当横向 SSH 可用时配置 %}
 
 - Jenkins
   - Git 配置
   - 配置 SSH Keygen
+  - 插件配置
 - 脚本内容
   - Jenkins 远程执行的脚本
 - NVM
   - Nodejs 版本
-  - Pnpm 版本
+  - Pnpm 版本（具体指定）
   - Nodejs 仓库配置
 - Java
   - Jdk1.8（与业务 jdk 版本一致）
@@ -163,19 +173,25 @@ rightbar: toc
 - Docker
   - 版本
   - root 用户安装
-- harbor
-- helm
-- docker 代理配置
+- Harbor
+- Helm
+- Docker 代理配置
 
 ### 跳板机
 
 - Windows （RDP 协议）
-  - Navicat
-  - Firefox or Chrome
+  - 堡垒机配置
+    - RDP 协议
+  - 服务器配置
+    - Navicat
+    - Firefox or Chrome
 - Linux （vnc 协议）
-  - VNC 配置
-  - Navicat
-  - Firefox or Chrome
+  - 堡垒机配置
+    - VNC 协议
+  - 服务器配置
+    - VNC
+    - Navicat
+    - Firefox or Chrome
 
 ### 其他事项
 

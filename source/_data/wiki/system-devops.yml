@@ -29,6 +29,8 @@ tree:
   '代理服务器部分':
     - proxy/web
     - proxy/net
+  '中间件软件部分':
+    - middleware/minio
   '容器化服务器部分':
     - cloud/docker/index
     - cloud/k8s/index
