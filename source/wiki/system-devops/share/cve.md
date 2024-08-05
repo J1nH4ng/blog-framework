@@ -72,7 +72,7 @@ banner: https://w.wallhaven.cc/full/2k/wallhaven-2k67om.jpg
 
     结果如下：
 
-    ```shell
+    ```bash
     kexalgorithms sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256
     ```
 
@@ -84,7 +84,7 @@ banner: https://w.wallhaven.cc/full/2k/wallhaven-2k67om.jpg
 
 4. 禁用 `diffie-hellman` 算法
 
-    ```shell
+    ```bash
     echo "KexAlgorithms sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521" >> /etc/ssh/sshd_config
    
     systemctl restart sshd

@@ -3,8 +3,33 @@
 .codecopy-btn {position: absolute;transition: all 0.5s;top: 10px;right: 20px;width: 90px;border-radius: 5px;background-color: rgba(221,221,221,.1);color: #999;text-align: center;font-weight: 700;font-size: 14px}
 .codecopy-btn:hover {background-color: rgba(221,221,221,.2);top:9px}
 /*语法高亮*/
-.hljs{position:relative;display:block;overflow-x:hidden;/*背景跟随Stellar*/background:var(--block);color:#999;padding:30px 5px 2px 5px;box-shadow: 0 10px 30px 0px rgb(0 0 0 / 40%)}
-.hljs::before{content:"";position:absolute;left:15px;top:10px;overflow:visible;width:12px;height:12px;border-radius:16px;box-shadow:20px 0 #a9a6a1, 40px 0 #999;-webkit-box-shadow:20px 0 #999, 40px 0 #999;background-color:#999;white-space:nowrap;text-indent: 75px;font-size: 16px;line-height: 12px;font-weight: 700;}
+.hljs{
+    position:relative;
+    display:block;
+    overflow-x:hidden;/*背景跟随Stellar*/
+    /*background:var(--block);*/
+    color:#999;
+    padding:30px 5px 2px 5px;
+    box-shadow: 0 10px 30px 0px rgb(0 0 0 / 40%)
+}
+.hljs::before{
+    content:"";
+    position:absolute;
+    left:15px;
+    top:10px;
+    overflow:visible;
+    width:12px;
+    height:12px;
+    border-radius:16px;
+    box-shadow:20px 0 #a9a6a1, 40px 0 #999;
+    -webkit-box-shadow:20px 0 #999, 40px 0 #999;
+    background-color:#999;
+    white-space:nowrap;
+    text-indent: 75px;
+    font-size: 16px;
+    line-height: 12px;
+    font-weight: 700;
+}
 .highlight:hover .hljs::before{color: #35cd4b;box-shadow:20px 0 #fdbc40, 40px 0 #35cd4b;-webkit-box-shadow:20px 0 #fdbc40, 40px 0 #35cd4b;background-color:#fc625d;}
 .hljs-ln{display:inline-block;overflow-x:auto;padding-bottom:5px}
 .hljs-ln td {padding: 0;background-color: var(--block)}
@@ -94,7 +119,7 @@ code{
     background-position: 50% !important;
 }
 figure::after{
-    content: '© J1nH4ng';
+    content: '© 14BYTES.inc';
     text-align: right;
     font-size: 10px;
     float:right;
