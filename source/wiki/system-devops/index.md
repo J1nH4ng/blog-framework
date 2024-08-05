@@ -24,12 +24,12 @@ rightbar: toc
 完成公共部分的主要内容
 
 <!-- okr kr4 status:off_track percent:0.15 -->
-完成 Proxy 服务器的相关文档
+完成代理服务器的相关文档
 
-<!-- okr kr5 status:unfinished -->
-完成 Web 应用服务器的相关文档
+<!-- okr kr5 percent:0.05 -->
+完成应用服务器的相关文档
 
-<!-- okr kr6 status:unfinished -->
+<!-- okr kr6 percent:0.15 -->
 完成中间件服务器的相关文档
 
 <!-- okr kr7 status:unfinished -->
@@ -42,10 +42,10 @@ rightbar: toc
 完成运维服务器的相关文档
 
 <!-- okr krX status:unfinished -->
-完成 VNC 服务器的相关文档
+完成 K8S 服务器的相关文档
 
 <!-- okr krXI status:unfinished -->
-完成 K8S 服务器的相关文档
+完成附录部分的相关文档
 
 {% endokr %}
 
@@ -87,10 +87,19 @@ rightbar: toc
 - 代理服务器部分
   - 应用代理服务器：{% hashtag 重大更新维护 color:red %}
   - 网络代理服务器：{% hashtag 重大更新维护 color:red %}
+- 应用服务器部分
+  - 前端应用服务器：{% hashtag 重大更新维护 color:red %}
+  - 后端应用服务器：{% hashtag 重大更新维护 color:red %}
+- 中间件服务器部分
+  - MinIO 部分：{% hashtag 重大更新维护 color:red %}
 - 容器化服务器部分：
-  - Docker 介绍：{% hashtag 仅修复错误 color:yellow %}
-  - Kubernetes 介绍：{% hashtag 仅修复错误 color:yellow %}
-- 附录：
+  - Docker 安装配置：{% hashtag 仅修复错误 color:yellow %}
+  - Kubernetes 安装配置：{% hashtag 仅修复错误 color:yellow %}
+- 附录 A：
+  - Keepalived 软件介绍 {% hashtag 仅修复错误 color:yellow %}
+  - Docker 软件介绍 {% hashtag 仅修复错误 color:yellow %}
+  - Kubernetes 软件介绍 {% hashtag 仅修复错误 color:yellow %}
+- 附录 B：
   - 半自动部署脚本：{% hashtag 重大更新维护 color:red %}
   - 文件同步脚本：{% hashtag 重大更新维护 color:red %}
 

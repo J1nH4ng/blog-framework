@@ -29,6 +29,9 @@ tree:
   '代理服务器部分':
     - proxy/web
     - proxy/net
+  '应用服务器部分':
+    - web/frontend
+    - web/backend
   '中间件软件部分':
     - middleware/minio
   '容器化服务器部分':

@@ -166,7 +166,7 @@ rightbar: toc
 
 对于爬虫应该爬取 robots.txt 文件中所规定的内容，这个一个业内遵守的默认规定，但是依旧有部分厂商不遵守并且爬取频率过高，对于服务器的内存和流量有较大影响。或者，并不想业务能够被浏览器收录，需要进行爬虫的阻止。
 
-```nginx agent_deny.conf
+```shell agent_deny.conf
 # 禁止 scrapy 爬虫
 if ($http_user_agent ~* "Scrapy|Sogou web spider|Baiduspider") {
     return 403;
