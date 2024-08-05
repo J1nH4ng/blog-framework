@@ -678,7 +678,11 @@ api_host:
 inject:
   head:
     - <link rel="stylesheet" href="/custom/css/link.css?1">
+    - <link rel="stylesheet" href="/custom/css/font.css?1">
     - <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
+    - <link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.7.0/style.css" media="print" onload="this.media='all'">
   script:
     - <script type="text/javascript" src="/custom/js/ZYCode.js?1"></script>
+    - <script type="text/javascript" src="/custom/js/changefont.js?1"></script>
     - <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+    - <script type="text/javascript" src="/custom/js/adjust-codeblock-height.js?1"></script>
