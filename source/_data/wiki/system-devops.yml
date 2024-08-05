@@ -2,7 +2,7 @@ name: system-devops
 title: 系统化运维文档
 subtitle: '系统化运维文档 | 由 14BYTES.inc 倾情奉献'
 tags: 运维
-icon:
+icon: /wiki/system-devops/images/system-devops.svg
 # cover: https://w.wallhaven.cc/full/1p/wallhaven-1pywr9.png
 cover: /wiki/system-devops/images/system-devops.svg
 coverpage: true
@@ -11,7 +11,7 @@ share: true
 repo:
 search:
   filter: /wiki/system-devops/
-  placeholder: 在本知识库中搜索...
+  placeholder: 在运维知识库中搜索...
 leftbar:
   - tree
   - timeline_stellar_releases
