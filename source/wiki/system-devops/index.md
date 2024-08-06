@@ -86,6 +86,8 @@ rightbar: toc
 - 应用服务器部分
   - 前端应用服务器：{% hashtag 重大更新维护 color:red %}
   - 后端应用服务器：{% hashtag 重大更新维护 color:red %}
+- 数据库服务器部分
+  - Mysql 双主集群搭建：{% hashtag 重大更新维护 color:red %}
 - 中间件服务器部分
   - NFS 服务搭建：{% hashtag 重大更新维护 color:red %}
   - MinIO 部分：{% hashtag 重大更新维护 color:red %}

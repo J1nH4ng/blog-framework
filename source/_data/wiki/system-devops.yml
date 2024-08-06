@@ -32,6 +32,8 @@ tree:
   '应用服务器部分':
     - web/frontend
     - web/backend
+  '数据库服务器部分':
+    - database/mysql/group/dms
   '中间件软件部分':
     - middleware/nfs
     - middleware/minio
