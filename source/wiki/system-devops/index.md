@@ -70,10 +70,6 @@ rightbar: toc
 {% image /wiki/system-devops/images/hello@1x.png width:300px %}
 {% endtimeline %}
 
-{% quot Wiki 资源地址 el:h2 %}
-
-{% link https://github.com/14bytes/config-share-files 脚本仓库 icon:https://github.githubassets.com/favicons/favicon.svg desc:false %}
-
 {% quot Wiki 维护周期 el:h2 %}
 
 - 快速开始
@@ -91,6 +87,7 @@ rightbar: toc
   - 前端应用服务器：{% hashtag 重大更新维护 color:red %}
   - 后端应用服务器：{% hashtag 重大更新维护 color:red %}
 - 中间件服务器部分
+  - NFS 服务搭建：{% hashtag 重大更新维护 color:red %}
   - MinIO 部分：{% hashtag 重大更新维护 color:red %}
 - 容器化服务器部分：
   - Docker 安装配置：{% hashtag 仅修复错误 color:yellow %}

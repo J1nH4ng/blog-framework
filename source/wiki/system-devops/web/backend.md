@@ -69,3 +69,13 @@ stdout_logfile_maxbytes=20MB
 stdout_logfile_backups=20
 stdout_logfile=/data/logs/<programme-name>/<jar-name>.log
 ```
+
+## NFS 部分
+
+### 配置 NFS 服务
+
+对于 NFS 服务的配置，不应该存放在后端服务器上，而是应该有一台单独的存储服务器。这里将搭建教程存放于中间件服务器部分。
+
+{% link /wiki/system-devops/middleware/nfs NFS&nbsp;服务器搭建 %}
+
+### 挂载已经存在的 NFS 服务

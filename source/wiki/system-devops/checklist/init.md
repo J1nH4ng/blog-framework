@@ -193,7 +193,7 @@ rightbar: toc
     - Navicat
     - Firefox or Chrome
 
-### 其他事项
+## 其他事项
 
 - Squid 源服务器配置白名单
 - 上传文件的 MD5 或 Hash 检查
