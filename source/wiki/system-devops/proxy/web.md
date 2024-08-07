@@ -184,4 +184,10 @@ if ($http_user_agent ~ "Mozilla/4.0\ \(compatible;\ MSIE\ 6.0;\ Windows\ NT\ 5.1
 
 ### 配置请求转发
 
+### 基于 Lua 配置 IP 封禁
+
 ## 【可选】配置文件同步
+
+脚本具体内容查看：
+
+{% link /wiki/system-devops/extra/script/file-sync 文件同步脚本 %}
