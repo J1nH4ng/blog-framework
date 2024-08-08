@@ -130,3 +130,96 @@ Authentication requires secure connection.
 2. 剩下操作与主数据库一样
 
 ## Keepalived 配置
+
+### 前置配置
+
+1. 安装活性检测软件
+   ```bash
+   yum -y install psmisc 
+   ```
+   {% note color:cyan psmisc&nbsp;作用 提供 killall 指令 %}
+2. 配置 Mysql 服务检查脚本
+   ```bash
+   mkdir -pv /data/scripts/keepalived
+   touch /data/scripts/keepalived/check-mysql.sh
+   chmod +x /data/scripts/keepalived/check-mysql.sh
+   
+   vim /data/scripts/keepalived/check-mysql.sh
+   ```
+   写入如下内容：
+   ```shell
+   #!/bin/bash
+   
+   # 若 mysql 进程不存在，则停止 keepalived 服务
+   killall -0 mysqld &>/dev/null
+
+   if [ $? -ne 0 ];then    # 判断上一条指令的状态码，若状态码为0则服务存活，否则服务未启动
+      /etc/init.d/mysqld start
+      sleep 1s    # mysql_safe启动mysqld进程需要一定的时间
+      killall -0 mysqld &>/dev/null
+      if [ $? -ne 0 ];then
+         systemctl stop keepalived
+      fi
+   fi
+   ```
+
+### 配置 Keepalived 配置
+
+1. 主数据库配置
+   ```bash
+   vim /usr/local/keepalived/etc/keepalived/keepalived.conf
+   ```
+   写入如下内容：
+   ```makefile keepalived.conf
+   ! Configuration File for keepalived
+
+   global_defs {
+      router_id Mysql-1-106 #参照服务器标识命名约定
+   }
+   
+   vrrp_script chk_mysql {
+      script "/usr/local/keepalived2.2/scripts/check-mysql.sh"
+      interval 2
+      fall 2
+      rise 1
+   }
+   
+   vrrp_instance VI_1 {
+      state MASTER
+      # 修改网卡名称为本机的网卡名称
+      interface eth0
+      virtual_router_id 51
+      priority 100
+      advert_int 1
+      authentication {
+         auth_type PASS
+         auth_pass 1111
+      }
+      virtual_ipaddress {
+         # VIP 地址
+         192.168.33.201
+      }
+      # 防止主备节点的上联交换机禁用了组播，采用 vrrp 单播通告的方式
+      unicast_src_ip 192.168.150.106 #本机 IP 地址
+      unicast_peer {
+         192.168.150.107 #对端节点 IP 地址
+      }
+      track_script {
+         chk_mysql
+      }
+   }
+   ```
+2. 备数据库
+   除网卡名称、本机 IP 和对端 IP 需修改外，其他的与主数据库配置一样
+3. 启动 Keepalived
+   ```bash
+   systemctl start keepalived
+   systemctl enable keepalived
+   ```
+4. 查看运行状态和 VIP 是否存在
+   ```bash
+   systemctl status keepalived
+   
+   # 查看 VIP 是否存在
+   ip a
+   ```
