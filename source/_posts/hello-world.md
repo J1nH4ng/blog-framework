@@ -23,3 +23,32 @@ categories: [折腾不息]
 一方面是沉迷于技术折腾的兴趣，另一方面是对于自己数据的完全的掌控，在国内的博客平台上的笔记或内容，你无法完全控制，一旦被平台删除的或者封号的情况下，根本无法正常使用。这使得自建博客仍然是当前的最优选择。
 
 得益于新技术的发展，博客不仅仅局限于动态博客，静态博客生成工具也层出不穷，这一方面减少了服务器运维的成本，另一方面可以部署在静态页面的提供商处，避免了个人服务器的 DDOS 的攻击导致的损失。
+
+{% quot Hello,World! el:h2 %}
+
+```shell
+echo "Hello,World!"
+```
+
+```rust
+fn main() {
+    println!("Hello,World!");
+}
+```
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        system.out.println("Hello,World!");
+    }
+}
+```
+
+```python
+print('Hello,World!')
+```
+
+```typescript
+let message: string = 'Hello,World!';
+console.log(message);
+```

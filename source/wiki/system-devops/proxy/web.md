@@ -66,10 +66,9 @@ rightbar: toc
    
    systemctl daemon-reload
    ```
-7. 重启 rsyslog 和 keepalived 服务
+7. 重启 rsyslog 服务
    ```bash
    systemctl restart rsyslog
-   systemctl restart keepalived
    ```
 
 #### Keepalived 配置详解
@@ -154,6 +153,15 @@ rightbar: toc
    }
    ```
 
+3. 修改 Backup 节点的 Keepalived 文件
+
+   主要流程与 Master 节点流程一样，修改网卡配置、本机 IP 地址和对端 IP 地址即可
+
+4. 启动 Keepalived 服务
+   ```bash
+   systemctl start keepalived
+   systemctl enable keepalived
+   ```
 ## 配置 Nginx
 
 ### 配置 proxy.conf
